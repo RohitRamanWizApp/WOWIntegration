@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WOWIntegration", "WOWIntegration.csproj", "{1127A221-B950-4AB4-8EF6-6A159B060C7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizCursors", "..\WizCursors\WizCursors.csproj", "{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1127A221-B950-4AB4-8EF6-6A159B060C7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1127A221-B950-4AB4-8EF6-6A159B060C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1127A221-B950-4AB4-8EF6-6A159B060C7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1127A221-B950-4AB4-8EF6-6A159B060C7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15A57578-DED2-4425-BED8-593801BF5F1E}
+	EndGlobalSection
+EndGlobal
