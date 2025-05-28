@@ -816,6 +816,33 @@ namespace WOWIntegration
                         Boolean para4_name_flag = clsCommon.ConvertBool(drow["para4_name_flag"]);
                         Boolean para5_name_flag = clsCommon.ConvertBool(drow["para5_name_flag"]);
                         Boolean para6_name_flag = clsCommon.ConvertBool(drow["para6_name_flag"]);
+                        Boolean ac_name_flag = clsCommon.ConvertBool(drow["ac_name_flag"]);
+                        Boolean attr1_flag = clsCommon.ConvertBool(drow["attr1_flag"]);
+                        Boolean attr2_flag = clsCommon.ConvertBool(drow["attr2_flag"]);
+                        Boolean attr3_flag = clsCommon.ConvertBool(drow["attr3_flag"]);
+                        Boolean attr4_flag = clsCommon.ConvertBool(drow["attr4_flag"]);
+                        Boolean attr5_flag = clsCommon.ConvertBool(drow["attr5_flag"]);
+                        Boolean attr6_flag = clsCommon.ConvertBool(drow["attr6_flag"]);
+                        Boolean attr7_flag = clsCommon.ConvertBool(drow["attr7_flag"]);
+                        Boolean attr8_flag = clsCommon.ConvertBool(drow["attr8_flag"]);
+                        Boolean attr9_flag = clsCommon.ConvertBool(drow["attr9_flag"]);
+                        Boolean attr10_flag = clsCommon.ConvertBool(drow["attr10_flag"]);
+                        Boolean attr11_flag = clsCommon.ConvertBool(drow["attr11_flag"]);
+                        Boolean attr12_flag = clsCommon.ConvertBool(drow["attr12_flag"]);
+                        Boolean attr13_flag = clsCommon.ConvertBool(drow["attr13_flag"]);
+                        Boolean attr14_flag = clsCommon.ConvertBool(drow["attr14_flag"]);
+                        Boolean attr15_flag = clsCommon.ConvertBool(drow["attr15_flag"]);
+                        Boolean attr16_flag = clsCommon.ConvertBool(drow["attr16_flag"]);
+                        Boolean attr17_flag = clsCommon.ConvertBool(drow["attr17_flag"]);
+                        Boolean attr18_flag = clsCommon.ConvertBool(drow["attr18_flag"]);
+                        Boolean attr19_flag = clsCommon.ConvertBool(drow["attr19_flag"]);
+                        Boolean attr20_flag = clsCommon.ConvertBool(drow["attr20_flag"]);
+                        Boolean attr21_flag = clsCommon.ConvertBool(drow["attr21_flag"]);
+                        Boolean attr22_flag = clsCommon.ConvertBool(drow["attr22_flag"]);
+                        Boolean attr23_flag = clsCommon.ConvertBool(drow["attr23_flag"]);
+                        Boolean attr24_flag = clsCommon.ConvertBool(drow["attr24_flag"]);
+                        Boolean attr25_flag = clsCommon.ConvertBool(drow["attr25_flag"]);
+
                         StringBuilder cStrFilter = new StringBuilder();
                         if (nSchemeMode != 3)
                         {
@@ -873,7 +900,136 @@ namespace WOWIntegration
                                         if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["PARA6_NAME"]))) continue;
                                         cStrFilter.Append(" AND PARA6_NAME='" + Convert.ToString(drowParaFilter["PARA6_NAME"]) + "'");
                                     }
-
+                                    if (ac_name_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["AC_NAME"]))) continue;
+                                        cStrFilter.Append(" AND AC_NAME='" + Convert.ToString(drowParaFilter["AC_NAME"]) + "'");
+                                    }
+                                    if (attr1_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR1_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR1_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR1_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr2_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR2_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR2_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr3_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR3_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr4_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR4_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR4_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR4_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr5_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR5_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR5_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR5_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr6_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR6_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR6_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR6_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr7_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR7_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR7_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR7_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr8_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR8_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR8_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR8_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr9_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR9_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR9_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR9_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr10_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR10_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR10_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR10_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr11_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR11_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR11_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR11_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr12_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR12_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR12_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR12_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr13_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR13_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR13_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR13_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr14_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR14_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR14_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR14_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr15_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR15_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR15_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR15_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr16_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR16_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR16_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR16_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr17_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR17_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR17_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR17_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr18_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR18_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR18_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR18_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr19_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR19_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR19_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR19_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr20_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR20_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR20_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR20_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr21_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR21_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR21_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR21_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr22_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR22_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR22_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR22_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr23_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR23_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR23_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR23_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr24_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR24_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR24_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR24_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr25_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR25_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR25_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR25_KEY_NAME"]) + "'");
+                                    }
                                     String cStrFilter1 = cStrFilter.ToString();
                                     if (String.IsNullOrEmpty(cStrFilter1)) continue;
                                     cStrFilter1 = cStrFilter1.Trim().TrimStart(new char[] { 'A', 'N', 'D' });
@@ -976,7 +1132,136 @@ namespace WOWIntegration
                                         if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["PARA6_NAME"]))) continue;
                                         cStrFilter.Append(" AND PARA6_NAME='" + Convert.ToString(drowParaFilter["PARA6_NAME"]) + "'");
                                     }
-
+                                    if (ac_name_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["AC_NAME"]))) continue;
+                                        cStrFilter.Append(" AND AC_NAME='" + Convert.ToString(drowParaFilter["AC_NAME"]) + "'");
+                                    }
+                                    if (attr1_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR1_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR1_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR1_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr2_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR2_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR2_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr3_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR3_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr4_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR4_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR4_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR4_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr5_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR5_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR5_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR5_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr6_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR6_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR6_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR6_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr7_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR7_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR7_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR7_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr8_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR8_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR8_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR8_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr9_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR9_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR9_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR9_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr10_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR10_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR10_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR10_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr11_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR11_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR11_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR11_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr12_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR12_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR12_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR12_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr13_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR13_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR13_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR13_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr14_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR14_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR14_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR14_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr15_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR15_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR15_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR15_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr16_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR16_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR16_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR16_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr17_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR17_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR17_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR17_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr18_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR18_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR18_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR18_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr19_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR19_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR19_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR19_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr20_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR20_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR20_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR20_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr21_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR21_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR21_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR21_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr22_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR22_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR22_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR22_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr23_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR23_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR23_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR23_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr24_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR24_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR24_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR24_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr25_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR25_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR25_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR25_KEY_NAME"]) + "'");
+                                    }
                                     String cStrFilter1 = cStrFilter.ToString();
                                     if (String.IsNullOrEmpty(cStrFilter1)) continue;
                                     cStrFilter1 = cStrFilter1.Trim().TrimStart(new char[] { 'A', 'N', 'D' });
@@ -1071,7 +1356,136 @@ namespace WOWIntegration
                                         if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["PARA6_NAME"]))) continue;
                                         cStrFilter.Append(" AND PARA6_NAME='" + Convert.ToString(drowParaFilter["PARA6_NAME"]) + "'");
                                     }
-
+                                    if (ac_name_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["AC_NAME"]))) continue;
+                                        cStrFilter.Append(" AND AC_NAME='" + Convert.ToString(drowParaFilter["AC_NAME"]) + "'");
+                                    }
+                                    if (attr1_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR1_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR1_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR1_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr2_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR2_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR2_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr3_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR3_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR3_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr4_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR4_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR4_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR4_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr5_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR5_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR5_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR5_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr6_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR6_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR6_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR6_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr7_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR7_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR7_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR7_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr8_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR8_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR8_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR8_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr9_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR9_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR9_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR9_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr10_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR10_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR10_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR10_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr11_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR11_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR11_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR11_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr12_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR12_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR12_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR12_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr13_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR13_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR13_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR13_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr14_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR14_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR14_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR14_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr15_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR15_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR15_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR15_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr16_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR16_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR16_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR16_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr17_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR17_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR17_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR17_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr18_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR18_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR18_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR18_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr19_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR19_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR19_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR19_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr20_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR20_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR20_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR20_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr21_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR21_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR21_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR21_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr22_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR22_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR22_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR22_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr23_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR23_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR23_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR23_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr24_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR24_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR24_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR24_KEY_NAME"]) + "'");
+                                    }
+                                    if (attr25_flag)
+                                    {
+                                        if (String.IsNullOrEmpty(Convert.ToString(drowParaFilter["ATTR25_KEY_NAME"]))) continue;
+                                        cStrFilter.Append(" AND ATTR25_KEY_NAME='" + Convert.ToString(drowParaFilter["ATTR25_KEY_NAME"]) + "'");
+                                    }
                                     String cStrFilter1 = cStrFilter.ToString();
                                     if (String.IsNullOrEmpty(cStrFilter1)) continue;
                                     cStrFilter1 = cStrFilter1.Trim().TrimStart(new char[] { 'A', 'N', 'D' });

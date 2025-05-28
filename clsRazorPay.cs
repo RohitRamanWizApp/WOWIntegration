@@ -520,7 +520,10 @@ namespace WOWIntegration
             /// An array of objects containing the sub-item details of the item.
             /// </summary>
             public List<RazorpayItems> sub_items { get; set; }
-            
+
+            public String employee_id { get; set; }
+            public RazorPayAdditionalcharges additional_charges { get; set; }
+
         }
         /// <summary>
         /// This is an array of objects containing details of any additional charges on the item.
@@ -639,6 +642,8 @@ namespace WOWIntegration
             /// Optional : Amount used from the customer's wallet for this transaction.
             /// </summary>
             public Decimal used_wallet_amount { get; set; }
+
+            public List<RazorPayAdditionalcharges> additional_charges { get; set; }
 
         }
         /// <summary>
@@ -909,6 +914,7 @@ namespace WOWIntegration
                         li.total_amount = clsCommon.ConvertDecimal(drow["total_amount"])*100;
                         li.unit = "pc";// Convert.ToString(drow["unit"]);
                         li.unit_amount = clsCommon.ConvertDecimal(drow["unit_amount"])*100;
+                        li.employee_id= Convert.ToString(drow["emp_code"]);
                         List<RazorPayTaxes> listtax = new List<RazorPayTaxes>();
                         RazorPayTaxes litax = new RazorPayTaxes();
                         if (clsCommon.ConvertDecimal(drow["taxes_name_CGST"]) != 0)
@@ -945,6 +951,12 @@ namespace WOWIntegration
                             itemdisc.amount = clsCommon.ConvertDecimal(drow["discount"])*100;
                             itemdisc.hsn_code = li.hsn_code;
                             ListDiscount.Add(itemdisc);
+
+                            RazorPayAdditionalcharges itemAddCharges = new RazorPayAdditionalcharges();
+                            itemAddCharges.description= "ItemDiscount";
+                            itemAddCharges.percent = clsCommon.ConvertDecimal(drow["discount_percent"]);
+                            itemAddCharges.amount = clsCommon.ConvertDecimal(drow["discount"]) * 100;
+                            li.additional_charges = itemAddCharges;
                         }
                        
                         lineItems.Add(li);
@@ -998,6 +1010,38 @@ namespace WOWIntegration
                         }
                         
                         RazorPayReceipts rcpt = new RazorPayReceipts();
+                        List<RazorPayAdditionalcharges> listatdcharges = new List<RazorPayAdditionalcharges>();
+                        RazorPayAdditionalcharges atdcharges = new RazorPayAdditionalcharges();
+                        if (clsCommon.ConvertDecimal(dtMst.Rows[0]["atd_charges"])!=0)
+                        {
+                            atdcharges = new RazorPayAdditionalcharges();
+                            atdcharges.description = "OtherCharges";
+                            atdcharges.percent = 0;
+                            atdcharges.amount = clsCommon.ConvertDecimal(dtMst.Rows[0]["atd_charges"]) * 100;
+
+                            listatdcharges.Add(atdcharges);
+                        }
+                        if (clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_amount"]) != 0)
+                        {
+                            atdcharges = new RazorPayAdditionalcharges();
+                            atdcharges.description = "BillLevelDiscount";
+                            atdcharges.percent = clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_percentage"]);
+                            atdcharges.amount = clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_amount"]) * 100;
+
+                            listatdcharges.Add(atdcharges);
+                        }
+                        if (clsCommon.ConvertDecimal(dtMst.Rows[0]["round_off"]) != 0)
+                        {
+                            atdcharges = new RazorPayAdditionalcharges();
+                            atdcharges.description = "RoundOff";
+                            atdcharges.percent = 0;
+                            atdcharges.amount = clsCommon.ConvertDecimal(dtMst.Rows[0]["round_off"]) * 100;
+
+                            listatdcharges.Add(atdcharges);
+                        }
+                        if (listatdcharges.Count>0)
+                        rcpt.additional_charges = listatdcharges;
+
                         rcpt.total_quantity = clsCommon.ConvertDecimal(dtDet.Compute("SUM(quantity)", ""));
                         rcpt.total_tax_amount =( clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_CGST)", ""))+clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_SGST)", ""))+clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_IGST)", "")))*100;
                         rcpt.total_tax_percent = clsCommon.ConvertDecimal(dtDet.Compute("SUM(TAX_PERCENT)", ""));

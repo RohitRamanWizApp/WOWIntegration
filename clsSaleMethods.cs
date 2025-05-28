@@ -841,8 +841,8 @@ namespace  WOWIntegration
             return cMessage;
         }
 
-        public string CalcGst_PackSize(SqlConnection conn, ref DataTable dtCmm, ref DataTable dtCmd, DataTable tConfig, DataTable dtHsnMst, DataTable dtHsnDet,
-                              DataTable dtGstCalc)
+        public string CalcGst_PackSize(SqlConnection conn, ref DataTable dtCmm, ref DataTable dtCmd, DataTable tConfig, 
+            DataTable dtHsnMst, DataTable dtHsnDet, DataTable dtGstCalc)
         {
 
             string cMessage = "";
