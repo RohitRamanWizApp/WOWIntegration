@@ -914,7 +914,7 @@ namespace WOWIntegration
                         li.total_amount = clsCommon.ConvertDecimal(drow["total_amount"])*100;
                         li.unit = "pc";// Convert.ToString(drow["unit"]);
                         li.unit_amount = clsCommon.ConvertDecimal(drow["unit_amount"])*100;
-                        li.employee_id= Convert.ToString(drow["emp_code"]);
+                        li.employee_id= Convert.ToString(drow["empcode"]);
                         List<RazorPayTaxes> listtax = new List<RazorPayTaxes>();
                         RazorPayTaxes litax = new RazorPayTaxes();
                         if (clsCommon.ConvertDecimal(drow["taxes_name_CGST"]) != 0)
