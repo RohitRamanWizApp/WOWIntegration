@@ -290,7 +290,7 @@ namespace WOWIntegration
                                     cCmdRow["slsdet_row_id"] = drowScheme["slsdet_row_id"];
                                     Decimal nNet = (clsCommon.ConvertDecimal(cCmdRow["MRP"]) * clsCommon.ConvertDecimal(cCmdRow["QUANTITY"]));
                                     if (cRoundOff_Item_At == "1")
-                                        nNet = Math.Round(nNet);
+                                        nNet = Math.Round(nNet,  MidpointRounding.AwayFromZero);
                                     cCmdRow["NET"] = nNet - clsCommon.ConvertDecimal(cCmdRow["discount_amount"]);
 
 
@@ -351,7 +351,7 @@ namespace WOWIntegration
                                     drowDet1["slsdet_row_id"] = drowScheme["slsdet_row_id"];
                                     Decimal nNet = (clsCommon.ConvertDecimal(drowDet1["MRP"]) * clsCommon.ConvertDecimal(drowDet1["QUANTITY"]));
                                     if (cRoundOff_Item_At == "1")
-                                        nNet = Math.Round(nNet);
+                                        nNet = Math.Round(nNet, MidpointRounding.AwayFromZero);
                                     drowDet1["NET"] = nNet - clsCommon.ConvertDecimal(drowDet1["discount_amount"]);
 
                                 }

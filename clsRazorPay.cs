@@ -206,11 +206,11 @@ namespace WOWIntegration
             /// <summary>
             /// Wallet amount after used rewards of the customer.
             /// </summary>
-            public Decimal wallet_amount { get; set; }
+            public Int32 wallet_amount { get; set; }
             /// <summary>
             /// Amount saved by the customer.
             /// </summary>
-            public Decimal amount_saved { get; set; }
+            public Int32 amount_saved { get; set; }
             /// <summary>
             ///  Points earned by the customer after a transaction.
             /// </summary>
@@ -310,7 +310,7 @@ namespace WOWIntegration
             /// <summary>
             /// Mandatory : The amount of the payment in paise. For example, if the amount is 1200. The unit will be 120000.
             /// </summary>
-            public Decimal amount { get; set; }
+            public Int32 amount { get; set; }
             /// <summary>
             /// Optional : The Unique id of the payment method.
             /// </summary>
@@ -337,7 +337,7 @@ namespace WOWIntegration
             /// <summary>
             /// Mandatory : Applicable tax calculated on total amount.
             /// </summary>
-            public Decimal amount { get; set; }
+            public Int32 amount { get; set; }
         }
         /// <summary>
         /// An array of objects containing the sub-item details of the item.
@@ -355,7 +355,7 @@ namespace WOWIntegration
             /// <summary>
             /// Price of the product.
             /// </summary>
-            public Decimal unit_amount { get; set; }
+            public Int32 unit_amount { get; set; }
             /// <summary>
             /// Type of unit. Possible values: kg | g | mg | lt | ml | pc | cm | m | in | ft | set
             /// </summary>
@@ -393,7 +393,7 @@ namespace WOWIntegration
             /// <summary>
             /// Mandatory : Total amount of the product.
             /// </summary>
-            public Decimal total_amount { get; set; }
+            public Int32 total_amount { get; set; }
             /// <summary>
             /// Brand name of the product.
             /// </summary>
@@ -425,7 +425,7 @@ namespace WOWIntegration
             /// <summary>
             /// This is an array of objects containing details of any additional charges on the item.
             /// </summary>
-            public RazorPayAdditionalcharges additional_charges { get; set; }
+            //public RazorPayAdditionalcharges additional_charges { get; set; }
         }
         /// <summary>
         /// This is an array of objects containing the product data of the bill. Required if receipt_type is not credit_invoice or debit_invoice.
@@ -443,7 +443,7 @@ namespace WOWIntegration
             /// <summary>
             /// Price of the product.
             /// </summary>
-            public Decimal unit_amount { get; set; }
+            public Int32? unit_amount { get; set; }
             /// <summary>
             /// Type of unit. Possible values: kg | g | mg | lt | ml | pc | cm | m | in | ft | set
             /// </summary>
@@ -451,11 +451,11 @@ namespace WOWIntegration
             /// <summary>
             /// The total weight of the item, including all materials such as metal, stones, diamonds, and other embellishments.
             /// </summary>
-            public Decimal gross_weight { get; set; }
+            public Decimal? gross_weight { get; set; }
             /// <summary>
             /// The weight of only the metal used in the item, excluding the weight of any diamonds, stones, or other materials
             /// </summary>
-            public Decimal net_weight { get; set; }
+            public Decimal? net_weight { get; set; }
             /// <summary>
             /// Product/Item description.
             /// </summary>
@@ -481,7 +481,7 @@ namespace WOWIntegration
             /// <summary>
             /// Mandatory : Total amount of the product.
             /// </summary>
-            public Decimal total_amount { get; set; }
+            public Int32 total_amount { get; set; }
             /// <summary>
             /// Brand name of the product.
             /// </summary>
@@ -522,7 +522,7 @@ namespace WOWIntegration
             public List<RazorpayItems> sub_items { get; set; }
 
             public String employee_id { get; set; }
-            public RazorPayAdditionalcharges additional_charges { get; set; }
+            //public RazorPayAdditionalcharges additional_charges { get; set; }
 
         }
         /// <summary>
@@ -537,7 +537,7 @@ namespace WOWIntegration
             /// <summary>
             /// Amount of additional charges.
             /// </summary>
-            public Decimal amount { get; set; }
+            public Int32 amount { get; set; }
             /// <summary>
             /// Percent calculated on total amount.
             /// </summary>
@@ -555,7 +555,7 @@ namespace WOWIntegration
             /// <summary>
             /// Amount of the applied discount.
             /// </summary>
-            public Decimal amount { get; set; }
+            public Int32 amount { get; set; }
             /// <summary>
             /// Percentile value of the discounted amount.
             /// </summary>
@@ -589,7 +589,7 @@ namespace WOWIntegration
             /// <summary>
             /// OPtional : The total amount before taxes, discounts and additional fees are added to the invoice.
             /// </summary>
-            public Decimal sub_total_amount { get; set; }
+            public Int32 sub_total_amount { get; set; }
             /// <summary>
             /// Mandatory : The currency of the invoice. Refer to this sheet for the list of supported currencies.(INR)
             /// </summary>
@@ -597,7 +597,7 @@ namespace WOWIntegration
             /// <summary>
             /// Optional : Total tax amount in paise.
             /// </summary>
-            public Decimal total_tax_amount { get; set; }
+            public Int32 total_tax_amount { get; set; }
             /// <summary>
             /// Total tax percentage applied on the receipt.
             /// </summary>
@@ -605,7 +605,7 @@ namespace WOWIntegration
             /// <summary>
             /// Mandatory : The total amount payable after adding taxes, discounts and additional fees to the invoice.
             /// </summary>
-            public Decimal net_payable_amount { get; set; }
+            public Int32 net_payable_amount { get; set; }
             /// <summary>
             /// OPtional : Status of the payment. Possible values: pending | authorized | failed | declined | refunded | cancelled | processed | settled | voided | success | paid | unpaid
             /// </summary>
@@ -613,19 +613,19 @@ namespace WOWIntegration
             /// <summary>
             /// Optional : Delivery charges of the product. This is applicable if business_type is ecommerce.
             /// </summary>
-            public Decimal delivery_charges { get; set; }
+            public Int32 delivery_charges { get; set; }
             /// <summary>
             /// Optional : Cash on Delivery charges of the product. This is applicable if business_type is ecommerce.
             /// </summary>
-            public Decimal cod_charges { get; set; }
+            public Int32 cod_charges { get; set; }
             /// <summary>
             /// Optional : Change amount to be returned to the customer if the payment was made in cash.
             /// </summary>
-            public Decimal change_amount { get; set; }
+            public Int32 change_amount { get; set; }
             /// <summary>
             /// Optional : Change amount to be returned to the customer if the payment was made in cash.
             /// </summary>
-            public Decimal roundup_amount { get; set; }
+            public Int32 roundup_amount { get; set; }
             /// <summary>
             /// Optional : Total percentage of the discount on the sub-total amount without the taxes.
             /// </summary>
@@ -633,7 +633,7 @@ namespace WOWIntegration
             /// <summary>
             /// OPtional : Total value of the discount on the invoice.
             /// </summary>
-            public Decimal total_discount_amount { get; set; }
+            public Int32 total_discount_amount { get; set; }
             /// <summary>
             /// Optional : This is an array of objects containing the details of the discount. If product reference (product_code, product_uid, or hsn_code) is present in the object, then the discount will be on the item. If not, the discount will be on the invoice.
             /// </summary>
@@ -641,7 +641,7 @@ namespace WOWIntegration
             /// <summary>
             /// Optional : Amount used from the customer's wallet for this transaction.
             /// </summary>
-            public Decimal used_wallet_amount { get; set; }
+            public Int32 used_wallet_amount { get; set; }
 
             public List<RazorPayAdditionalcharges> additional_charges { get; set; }
 
@@ -809,7 +809,7 @@ namespace WOWIntegration
                         ObjBill.created_at = (Int32)epoch;
                         ObjBill.receipt_timestamp = (Int32)epoch;
                         ObjBill.receipt_number = Convert.ToString(drow["CM_NO"]);
-                        ObjBill.receipt_type = "sales_invoice";//Convert.ToString(drow[""]);
+                        ObjBill.receipt_type = "tax_invoice";//Convert.ToString(drow[""]);
                         ObjBill.receipt_delivery = "print";// Convert.ToString(drow[""]);
                         //ObjBill.bar_code_number = Convert.ToString(drow["product_code"]);
                         //ObjBill.qr_code_number = Convert.ToString(drow[""]);
@@ -821,53 +821,107 @@ namespace WOWIntegration
                         //ObjBill.cashier_name = Convert.ToString(drow[""]);
                         //ObjBill.cashier_code = Convert.ToString(drow[""]);
 
-                        if (clsCommon.ConvertDecimal(drow["DISCOUNT_PERCENTAGE"]) != 0)
+                        //if (clsCommon.ConvertDecimal(drow["DISCOUNT_PERCENTAGE"]) != 0)
+                        //{
+                        //    RazorPayDiscounts itemdisc = new RazorPayDiscounts();
+                        //    itemdisc.name = "BillDiscount";
+                        //    itemdisc.percent = clsCommon.ConvertDecimal(drow["DISCOUNT_PERCENTAGE"]);
+                        //    itemdisc.amount =clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["discount_amount"]) * 100);
+                        //    ListDiscount.Add(itemdisc);
+                        //}
+                        if (clsCommon.ConvertDecimal(drow["discount_amount"]) != 0)
                         {
                             RazorPayDiscounts itemdisc = new RazorPayDiscounts();
-                            itemdisc.name = "BillDiscount";
+                            itemdisc.name = "BillLevelDiscount";
                             itemdisc.percent = clsCommon.ConvertDecimal(drow["DISCOUNT_PERCENTAGE"]);
-                            itemdisc.amount = clsCommon.ConvertDecimal(drow["discount_amount"])*100;
+                            itemdisc.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["discount_amount"]) * 100);
                             ListDiscount.Add(itemdisc);
                         }
-
+                        if (clsCommon.ConvertDecimal(drow["atd_charges"]) != 0)
+                        {
+                            RazorpayLineItems li = new RazorpayLineItems();
+                            li.name = "other charges";
+                            li.quantity = 0;
+                            li.total_amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["atd_charges"]) * 100);
+                            List<RazorPayTaxes> listtax = new List<RazorPayTaxes>();
+                            RazorPayTaxes litax = new RazorPayTaxes();
+                            if (clsCommon.ConvertDecimal(drow["other_charges_cgst_amount"]) != 0)
+                            {
+                                litax = new RazorPayTaxes();
+                                litax.name = "CGST";
+                                litax.percentage = (clsCommon.ConvertDecimal(drow["other_charges_gst_percentage"]) / 2);
+                                litax.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["other_charges_cgst_amount"]) * 100);
+                                listtax.Add(litax);
+                            }
+                            if (clsCommon.ConvertDecimal(drow["other_charges_sgst_amount"]) != 0)
+                            {
+                                litax = new RazorPayTaxes();
+                                litax.name = "SGST";
+                                litax.percentage = (clsCommon.ConvertDecimal(drow["other_charges_gst_percentage"]) / 2);
+                                litax.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["other_charges_sgst_amount"]) * 100);
+                                listtax.Add(litax);
+                            }
+                            if (clsCommon.ConvertDecimal(drow["other_charges_igst_amount"]) != 0)
+                            {
+                                litax = new RazorPayTaxes();
+                                litax.name = "IGST";
+                                litax.percentage = (clsCommon.ConvertDecimal(drow["other_charges_gst_percentage"]));
+                                litax.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["other_charges_igst_amount"]) * 100);
+                                listtax.Add(litax);
+                            }
+                            if (listtax.Count > 0)
+                                li.taxes = listtax;
+                            lineItems.Add(li);
+                        }
                         RazorPayAddress address = new RazorPayAddress();
-                       
-
                         RazorPayCustomer cust = new RazorPayCustomer();
                         if (!String.IsNullOrEmpty(Convert.ToString(drow["user_customer_code"])))
                         {
-                            address.address_line_1 = Convert.ToString(drow["address0"]);
-                            address.address_line_2 = Convert.ToString(drow["address1"]);
-                            address.city = Convert.ToString(drow["city"]);
-                            address.country = Convert.ToString(drow["COUNTRY_NAME"]);
-                            address.landmark = Convert.ToString(drow["address2"]);
-                            address.pin_code = Convert.ToString(drow["pincode"]);
-                            address.province = Convert.ToString(drow["state"]);
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["address1"])))
+                                address.address_line_1 = Convert.ToString(drow["address1"]);
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["address2"])))
+                                address.address_line_1 =( Convert.ToString(drow["address1"]) + " "+ Convert.ToString(drow["address2"]));
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["area_name"])))
+                                address.address_line_2 = Convert.ToString(drow["area_name"]);
+                            //address.city = Convert.ToString(drow["city"]);
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["pincode"])))
+                                address.pin_code = Convert.ToString(drow["pincode"]);
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["state"])))
+                                address.province = Convert.ToString(drow["state"]);
+                            //address.country = Convert.ToString(drow["COUNTRY_NAME"]);
+
+                            //address.landmark = Convert.ToString(drow["address2"]);
 
                             //cust.age = clsCommon.ConvertInt(drow[""]);
-                            if (clsCommon.ConvertDateTime(drow["dt_anniversary"]) > new DateTime(1900, 1, 1))
-                            {
-                                DateTime anniversary_date = clsCommon.ConvertDateTime(drow["dt_anniversary"]);
-                                epoch = (new DateTime(anniversary_date.Year, anniversary_date.Month, anniversary_date.Day, 0, 0, 0, DateTimeKind.Utc) - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds - 19800;
-                                cust.anniversary_date = (Int32)epoch;
-                            }
+                            //if (clsCommon.ConvertDateTime(drow["dt_anniversary"]) > new DateTime(1900, 1, 1))
+                            //{
+                            //    DateTime anniversary_date = clsCommon.ConvertDateTime(drow["dt_anniversary"]);
+                            //    epoch = (new DateTime(anniversary_date.Year, anniversary_date.Month, anniversary_date.Day, 0, 0, 0, DateTimeKind.Utc) - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds - 19800;
+                            //    cust.anniversary_date = (Int32)epoch;
+                            //}
                             //cust.company_name = Convert.ToString(drow[""]);
-                            cust.contact = Convert.ToString(drow["mobile"]);
-                            cust.customer_id = Convert.ToString(drow["user_customer_code"]);
-                            if (clsCommon.ConvertDateTime(drow["dt_birth"]) > new DateTime(1900, 1, 1))
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["mobile"])))
                             {
-                                DateTime date_of_birth = clsCommon.ConvertDateTime(drow["dt_birth"]);
-                                epoch = (new DateTime(date_of_birth.Year, date_of_birth.Month, date_of_birth.Day, 0, 0, 0, DateTimeKind.Utc) - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds - 19800;
-                                cust.date_of_birth = (Int32)epoch;
+                                cust.contact = Convert.ToString(drow["mobile"]);
+                                ObjBill.receipt_delivery = "digital";// Convert.ToString(drow[""]);
                             }
-                            cust.email = Convert.ToString(drow["email"]);
+                            cust.customer_id = Convert.ToString(drow["user_customer_code"]);
+                            //if (clsCommon.ConvertDateTime(drow["dt_birth"]) > new DateTime(1900, 1, 1))
+                            //{
+                            //    DateTime date_of_birth = clsCommon.ConvertDateTime(drow["dt_birth"]);
+                            //    epoch = (new DateTime(date_of_birth.Year, date_of_birth.Month, date_of_birth.Day, 0, 0, 0, DateTimeKind.Utc) - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds - 19800;
+                            //    cust.date_of_birth = (Int32)epoch;
+                            //}
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["email"])))
+                                cust.email = Convert.ToString(drow["email"]);
                             //cust.gender = "male";// Convert.ToString(drow[""]);
-                            cust.gstin = Convert.ToString(drow["cus_gst_no"]);
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["cus_gst_no"])))
+                                cust.gstin = Convert.ToString(drow["cus_gst_no"]);
                             //cust.marital_status = "married";// Convert.ToString(drow[""]);
-                            cust.name = Convert.ToString(drow["customer_fname"]);
+                            cust.name =( Convert.ToString(drow["customer_title"]) +" "+ Convert.ToString(drow["customer_fname"])+" "+ Convert.ToString(drow["customer_lname"])).Trim();
                             //cust.profession = Convert.ToString(drow[""]);
                             //cust.spouse_name = Convert.ToString(drow[""]);
-                            //if (!String.IsNullOrEmpty(Convert.ToString(drow["EINV_IRN_NO"])))
+                            if (!String.IsNullOrEmpty(Convert.ToString(drow["EINV_IRN_NO"])))
                             {
                                 cust.billing_address = address;
                             }
@@ -911,9 +965,9 @@ namespace WOWIntegration
                         //li.taxes.name = Convert.ToString(drow[""]);
                         //li.taxes.amount = clsCommon.ConvertDecimal(drow[""]);
                         //li.taxes.percentage = clsCommon.ConvertDecimal(drow[""]);
-                        li.total_amount = clsCommon.ConvertDecimal(drow["total_amount"])*100;
-                        li.unit = "pc";// Convert.ToString(drow["unit"]);
-                        li.unit_amount = clsCommon.ConvertDecimal(drow["unit_amount"])*100;
+                        li.total_amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["total_amount"])*100);
+                        li.unit = Convert.ToString(drow["unit"]);
+                        li.unit_amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["unit_amount"]) * 100);
                         li.employee_id= Convert.ToString(drow["empcode"]);
                         List<RazorPayTaxes> listtax = new List<RazorPayTaxes>();
                         RazorPayTaxes litax = new RazorPayTaxes();
@@ -922,7 +976,7 @@ namespace WOWIntegration
                             litax = new RazorPayTaxes();
                             litax.name = "CGST";
                             litax.percentage= (clsCommon.ConvertDecimal(drow["TAX_PERCENT"])/2);
-                            litax.amount = clsCommon.ConvertDecimal(drow["taxes_name_CGST"])*100;
+                            litax.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["taxes_name_CGST"])*100);
                             listtax.Add(litax);
                         }
                         if (clsCommon.ConvertDecimal(drow["taxes_name_SGST"]) != 0)
@@ -930,15 +984,15 @@ namespace WOWIntegration
                             litax = new RazorPayTaxes();
                             litax.name = "SGST";
                             litax.percentage = (clsCommon.ConvertDecimal(drow["TAX_PERCENT"]) / 2);
-                            litax.amount = clsCommon.ConvertDecimal(drow["taxes_name_CGST"])*100;
+                            litax.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["taxes_name_SGST"])*100);
                             listtax.Add(litax);
                         }
                         if (clsCommon.ConvertDecimal(drow["taxes_name_IGST"]) != 0)
                         {
                             litax = new RazorPayTaxes();
-                            litax.name = "CGST";
+                            litax.name = "IGST";
                             litax.percentage = (clsCommon.ConvertDecimal(drow["TAX_PERCENT"]));
-                            litax.amount = clsCommon.ConvertDecimal(drow["taxes_name_CGST"])*100;
+                            litax.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["taxes_name_IGST"])*100);
                             listtax.Add(litax);
                         }
                         li.taxes = listtax;
@@ -948,15 +1002,15 @@ namespace WOWIntegration
                             itemdisc.name = "ItemDiscount";
                             itemdisc.product_code = li.product_code;
                             itemdisc.percent = clsCommon.ConvertDecimal(drow["discount_percent"]);
-                            itemdisc.amount = clsCommon.ConvertDecimal(drow["discount"])*100;
-                            itemdisc.hsn_code = li.hsn_code;
+                            itemdisc.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["discount"])*100);
+                            //itemdisc.hsn_code = li.hsn_code;
                             ListDiscount.Add(itemdisc);
 
-                            RazorPayAdditionalcharges itemAddCharges = new RazorPayAdditionalcharges();
-                            itemAddCharges.description= "ItemDiscount";
-                            itemAddCharges.percent = clsCommon.ConvertDecimal(drow["discount_percent"]);
-                            itemAddCharges.amount = clsCommon.ConvertDecimal(drow["discount"]) * 100;
-                            li.additional_charges = itemAddCharges;
+                            //RazorPayAdditionalcharges itemAddCharges = new RazorPayAdditionalcharges();
+                            //itemAddCharges.description= "ItemDiscount";
+                            //itemAddCharges.percent = clsCommon.ConvertDecimal(drow["discount_percent"]);
+                            //itemAddCharges.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["discount"]) * 100);
+                            ////li.additional_charges = itemAddCharges;
                         }
                        
                         lineItems.Add(li);
@@ -964,7 +1018,7 @@ namespace WOWIntegration
                     foreach (DataRow drow in dtPayment.Rows)
                     {
                         RazorPayPayments li = new RazorPayPayments();
-                        li.amount = clsCommon.ConvertDecimal(drow["amount"])*100;
+                        li.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(drow["amount"])*100);
                         li.currency = "INR";// Convert.ToString(drow[""]);
                         li.method = Convert.ToString(drow["paymode_name"]);
                         li.payment_reference_id = Convert.ToString(drow["ref_no"]);
@@ -987,7 +1041,7 @@ namespace WOWIntegration
                                 litaxAll = new RazorPayTaxes();
                                 litaxAll.name = "CGST";
                                 litaxAll.percentage = (clsCommon.ConvertDecimal(drow["TAX_PERCENT"]) / 2);
-                                litaxAll.amount = clsCommon.ConvertDecimal(dtaxes_name_CGST)*100;
+                                litaxAll.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtaxes_name_CGST)*100);
                                 listtaxAll.Add(litaxAll);
                             }
                             if (clsCommon.ConvertDecimal(dtaxes_name_SGST) != 0)
@@ -995,15 +1049,15 @@ namespace WOWIntegration
                                 litaxAll = new RazorPayTaxes();
                                 litaxAll.name = "SGST";
                                 litaxAll.percentage = (clsCommon.ConvertDecimal(drow["TAX_PERCENT"]) / 2);
-                                litaxAll.amount = clsCommon.ConvertDecimal(dtaxes_name_CGST)*100;
+                                litaxAll.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtaxes_name_CGST)*100);
                                 listtaxAll.Add(litaxAll);
                             }
                             if (clsCommon.ConvertDecimal(dtaxes_name_IGST) != 0)
                             {
                                 litaxAll = new RazorPayTaxes();
-                                litaxAll.name = "CGST";
+                                litaxAll.name = "IGST";
                                 litaxAll.percentage = (clsCommon.ConvertDecimal(drow["TAX_PERCENT"]));
-                                litaxAll.amount = clsCommon.ConvertDecimal(dtaxes_name_CGST)*100;
+                                litaxAll.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtaxes_name_IGST)*100);
                                 listtaxAll.Add(litaxAll);
                             }
                             ObjBill.taxes = listtaxAll;
@@ -1017,43 +1071,43 @@ namespace WOWIntegration
                             atdcharges = new RazorPayAdditionalcharges();
                             atdcharges.description = "OtherCharges";
                             atdcharges.percent = 0;
-                            atdcharges.amount = clsCommon.ConvertDecimal(dtMst.Rows[0]["atd_charges"]) * 100;
+                            atdcharges.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtMst.Rows[0]["atd_charges"]) * 100);
 
                             listatdcharges.Add(atdcharges);
                         }
-                        if (clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_amount"]) != 0)
-                        {
-                            atdcharges = new RazorPayAdditionalcharges();
-                            atdcharges.description = "BillLevelDiscount";
-                            atdcharges.percent = clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_percentage"]);
-                            atdcharges.amount = clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_amount"]) * 100;
+                        //if (clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_amount"]) != 0)
+                        //{
+                        //    atdcharges = new RazorPayAdditionalcharges();
+                        //    atdcharges.description = "BillLevelDiscount";
+                        //    atdcharges.percent = clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_percentage"]);
+                        //    atdcharges.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtMst.Rows[0]["discount_amount"]) * 100);
 
-                            listatdcharges.Add(atdcharges);
-                        }
-                        if (clsCommon.ConvertDecimal(dtMst.Rows[0]["round_off"]) != 0)
-                        {
-                            atdcharges = new RazorPayAdditionalcharges();
-                            atdcharges.description = "RoundOff";
-                            atdcharges.percent = 0;
-                            atdcharges.amount = clsCommon.ConvertDecimal(dtMst.Rows[0]["round_off"]) * 100;
+                        //    listatdcharges.Add(atdcharges);
+                        //}
+                        //if (clsCommon.ConvertDecimal(dtMst.Rows[0]["round_off"]) != 0)
+                        //{
+                        //    atdcharges = new RazorPayAdditionalcharges();
+                        //    atdcharges.description = "RoundOff";
+                        //    atdcharges.percent = 0;
+                        //    atdcharges.amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtMst.Rows[0]["round_off"]) * 100);
 
-                            listatdcharges.Add(atdcharges);
-                        }
+                        //    listatdcharges.Add(atdcharges);
+                        //}
                         if (listatdcharges.Count>0)
                         rcpt.additional_charges = listatdcharges;
 
                         rcpt.total_quantity = clsCommon.ConvertDecimal(dtDet.Compute("SUM(quantity)", ""));
-                        rcpt.total_tax_amount =( clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_CGST)", ""))+clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_SGST)", ""))+clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_IGST)", "")))*100;
+                        rcpt.total_tax_amount = clsCommon.ConvertInt(( clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_CGST)", ""))+clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_SGST)", ""))+clsCommon.ConvertDecimal(dtDet.Compute("SUM(taxes_name_IGST)", "")))*100);
                         rcpt.total_tax_percent = clsCommon.ConvertDecimal(dtDet.Compute("SUM(TAX_PERCENT)", ""));
                         //rcpt.total_discount_percent = clsCommon.ConvertDecimal(dtDet.Compute("SUM(discount_percent)", ""));
-                        rcpt.total_discount_amount = (clsCommon.ConvertDecimal(dtDet.Compute("SUM(discount)", "")) + clsCommon.ConvertDecimal(dtMst.Compute("SUM(discount_amount)", ""))) * 100;
-                        rcpt.change_amount = clsCommon.ConvertDecimal(dtMst.Compute("SUM(payback)", ""))*100;
+                        rcpt.total_discount_amount = clsCommon.ConvertInt((clsCommon.ConvertDecimal(dtDet.Compute("SUM(discount)", "")) + clsCommon.ConvertDecimal(dtMst.Compute("SUM(discount_amount)", ""))) * 100);
+                        rcpt.change_amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtMst.Compute("SUM(payback)", ""))*100);
                         rcpt.currency = "INR";
-                        rcpt.net_payable_amount = clsCommon.ConvertDecimal(dtMst.Compute("SUM(NET_AMOUNT)", ""))*100;
+                        rcpt.net_payable_amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtMst.Compute("SUM(NET_AMOUNT)", ""))*100);
                         rcpt.payment_status = "paid";
-                        rcpt.roundup_amount = clsCommon.ConvertDecimal(dtMst.Compute("SUM(round_off)", ""))*100;
-                        rcpt.sub_total_amount = clsCommon.ConvertDecimal(dtDet.Compute("SUM(sub_total_amount)", ""))*100;
-                        rcpt.total_discount_percent = clsCommon.ConvertDecimal(rcpt.total_discount_amount / clsCommon.ConvertDecimal(dtDet.Compute("SUM(sub_total_amount)", "")));
+                        rcpt.roundup_amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtMst.Compute("SUM(round_off)", ""))*100);
+                        rcpt.sub_total_amount = clsCommon.ConvertInt(clsCommon.ConvertDecimal(dtDet.Compute("SUM(sub_total_amount)", ""))*100);
+                        rcpt.total_discount_percent = Math.Round(clsCommon.ConvertDecimal(rcpt.total_discount_amount / clsCommon.ConvertDecimal(dtDet.Compute("SUM(sub_total_amount)", ""))), 2);
                         if (ListDiscount.Count > 0)
                             rcpt.discounts = ListDiscount;
                         ObjBill.receipt_summary = rcpt;
@@ -1096,80 +1150,22 @@ namespace WOWIntegration
                     //ObjBill.Event = null;
                     
                     ObjBill.line_items = lineItems;
-                    Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();// (typeof(List<RootObject>));
+                    //Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();// (typeof(List<RootObject>));
 
-                    //Newtonsoft.Json.JsonWriter jw
-                    using (StreamWriter sw = new StreamWriter(cPath + "\\" + BILLID + "_RAZORPAYBILLS_json_WNULL.txt", false, Encoding.UTF8))
-                    {//using(MemoryStream ms = new MemoryStream())
-                        using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
-                        {
-                            serializer.Serialize(writer, ObjBill);
-                            // {"ExpiryDate":new Date(1230375600000),"Price":0}
-                        }
-                    }
+                    ////Newtonsoft.Json.JsonWriter jw
+                    //using (StreamWriter sw = new StreamWriter(cPath + "\\" + BILLID + "_RAZORPAYBILLS_json_WNULL.txt", false, Encoding.UTF8))
+                    //{
+                    //    using (Newtonsoft.Json.JsonWriter writer = new Newtonsoft.Json.JsonTextWriter(sw))
+                    //    {
+                    //        serializer.Serialize(writer, ObjBill);
+                    //    }
+                    //}
 
                     JsonSerializerSettings jss=new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
                     jss.NullValueHandling = NullValueHandling.Ignore;
                     string data = Newtonsoft.Json.JsonConvert.SerializeObject(ObjBill,jss);
                     cJSON = data;
                     File.WriteAllText(cPath + "\\" + BILLID + "_RAZORPAYBILLS_DATA_WONULL.txt", data);
-
-                    //try
-                    //{
-                    //    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-                    //    cAPIAddress = cAPIAddress.TrimEnd('/') + "/bills";
-                    //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(cAPIAddress);// "https://api-web.ext.dev.razorpay.in/v1/bills");
-                    //    request.Method = "POST";
-                    //    request.ContentType = "application/json";
-                    //    string userName = cCredentialName;// "rzp_live_PhkeB7jKfjSMWe";
-                    //    string password = cCredentialPassword;// "kbtGVQ5zlbCiQeKnv78E70Wz";
-                    //    var basicAuthBytes = Encoding.GetEncoding("ISO-8859-1").GetBytes($"{userName}:{password}");
-                    //    var authHeaderValue = $"Basic {System.Convert.ToBase64String(basicAuthBytes)}";
-                    //    request.Headers["Authorization"] = authHeaderValue;
-                    //    using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-                    //    {
-                    //        writer.Write(cJSON);
-                    //    }
-
-                    //    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                    //    {
-                    //        if (response.StatusCode == HttpStatusCode.OK)
-                    //        {
-                    //            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    //            {
-                    //                string responseText = reader.ReadToEnd();
-                    //                cJSON = responseText;
-                    //                dt.Rows[0]["err_msg"] = ex.Message;
-                    //                //Use the response, accordingly
-                    //            }
-                    //        }
-                    //        else
-                    //        {
-                    //            //Error
-                    //        }
-                    //    }
-                    //}
-                    //catch (WebException ex)
-                    //{
-                    //    //Log exception
-
-                    //    if (ex.Response != null)
-                    //    {
-                    //        using (StreamReader reader = new StreamReader(ex.Response.GetResponseStream()))
-                    //        {
-                    //            string errorResponse = reader.ReadToEnd();
-                    //            cJSON = errorResponse;
-                    //            dt.Rows[0]["err_msg"] = ex.Message;
-                    //            //Log the error response
-                    //        }
-
-                    //    }
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    cJSON = ex.Message;
-                    //    dt.Rows[0]["err_msg"] = ex.Message;
-                    //}
 
                 }
                 catch (Exception ex)

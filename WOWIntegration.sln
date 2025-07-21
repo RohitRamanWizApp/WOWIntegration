@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WOWIntegration", "WOWIntegr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WizCursors", "..\WizCursors\WizCursors.csproj", "{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataMerging", "..\DataMerging\DataMerging.csproj", "{83C78348-A946-41CB-B844-7CD276013F88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6890B45-F7FD-4AE8-AF43-87492E2DAE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83C78348-A946-41CB-B844-7CD276013F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C78348-A946-41CB-B844-7CD276013F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C78348-A946-41CB-B844-7CD276013F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C78348-A946-41CB-B844-7CD276013F88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

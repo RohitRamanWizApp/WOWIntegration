@@ -410,7 +410,7 @@ namespace  WOWIntegration
             }
             else
             {
-                dtCmm.Rows[0]["OTHER_CHARGES_CGST_AMOUNT"] = nOcGstAmount;
+                dtCmm.Rows[0]["OTHER_CHARGES_IGST_AMOUNT"] = nOcGstAmount;
             }
 
             return "";
@@ -459,15 +459,17 @@ namespace  WOWIntegration
             dtCmm.Rows[0]["FREIGHT_TAXABLE_VALUE"] = Math.Round(nOtherCharges - (nOtherCharges * (nOhTaxMethod == 2 ? nOcGstPct / (100 + nOcGstPct) : 0)), 2);
 
             decimal nOcGstAmount = Math.Round(globalMethods.ConvertDecimal(dtCmm.Rows[0]["FREIGHT_TAXABLE_VALUE"]) * nOcGstPct / 100, 2);
-
+            dtCmm.Rows[0]["FREIGHT_CGST_AMOUNT"] = 0;
+            dtCmm.Rows[0]["FREIGHT_SGST_AMOUNT"] = 0;
+            dtCmm.Rows[0]["FREIGHT_IGST_AMOUNT"] = 0;
             if (cCurStateCode == cPartyStateCode)
             {
                 dtCmm.Rows[0]["FREIGHT_CGST_AMOUNT"] = Math.Round(nOcGstAmount / 2, 2);
-                dtCmm.Rows[0]["FREIGHT_SGST_AMOUNT"] = dtCmm.Rows[0]["FREIGHT_CGST_AMOUNT"];
+                dtCmm.Rows[0]["FREIGHT_SGST_AMOUNT"] = Math.Round(nOcGstAmount / 2, 2);
             }
             else
             {
-                dtCmm.Rows[0]["FREIGHT_CGST_AMOUNT"] = nOcGstAmount;
+                dtCmm.Rows[0]["FREIGHT_IGST_AMOUNT"] = nOcGstAmount;
             }
 
             return "";
@@ -517,14 +519,17 @@ namespace  WOWIntegration
 
             decimal nOcGstAmount = Math.Round(globalMethods.ConvertDecimal(dtCmm.Rows[0]["OTHER_CHARGES_TAXABLE_VALUE"]) * nOcGstPct / 100, 2);
 
+            dtCmm.Rows[0]["OTHER_CHARGES_IGST_AMOUNT"] = 0;
+            dtCmm.Rows[0]["OTHER_CHARGES_CGST_AMOUNT"] = 0;
+            dtCmm.Rows[0]["OTHER_CHARGES_SGST_AMOUNT"] = 0;
             if (cCurStateCode == cPartyStateCode)
             {
                 dtCmm.Rows[0]["OTHER_CHARGES_CGST_AMOUNT"] = Math.Round(nOcGstAmount / 2, 2);
-                dtCmm.Rows[0]["OTHER_CHARGES_SGST_AMOUNT"] = dtCmm.Rows[0]["OTHER_CHARGES_CGST_AMOUNT"];
+                dtCmm.Rows[0]["OTHER_CHARGES_SGST_AMOUNT"] = Math.Round(nOcGstAmount / 2, 2);
             }
             else
             {
-                dtCmm.Rows[0]["OTHER_CHARGES_CGST_AMOUNT"] = nOcGstAmount;
+                dtCmm.Rows[0]["OTHER_CHARGES_IGST_AMOUNT"] = nOcGstAmount;
             }
 
             return "";
@@ -891,6 +896,7 @@ namespace  WOWIntegration
                 }
                 foreach (DataRow dr in dtCmd.Rows)
                 {
+                    dr["hsn_code"] = Convert.ToString(dr["hsn_code"]).Trim();
                     if (String.IsNullOrEmpty(dr["hsn_code"].ToString()) || dr["hsn_code"].ToString() == "0000000000")
                     {
                         cMessage = " Hsn Code can't be blank for Item code :" + dr["product_code"].ToString();
@@ -901,7 +907,7 @@ namespace  WOWIntegration
                     dr["ARTICLE_PACK_SIZE"] = ARTICLE_PACK_SIZE;
                     DataRow drGst = dtGstCalc.NewRow();
                     drGst["row_id"] = dr["row_id"];
-                    drGst["hsn_code"] = dr["hsn_code"];
+                    drGst["hsn_code"] =Convert.ToString( dr["hsn_code"]).Trim();
                     drGst["mrp"] = dr["mrp"];
                     drGst["quantity"] = dr["quantity"];
                     drGst["net_value"] = (!bRegisteredDealer ? globalMethods.ConvertDecimal(dr["net"])- globalMethods.ConvertDecimal(dr["cmm_discount_amount"]) : Math.Round(globalMethods.ConvertDecimal(dr["net"]) / globalMethods.ConvertDecimal(dr["ARTICLE_PACK_SIZE"]), 2) - (globalMethods.ConvertDecimal(dr["cmm_discount_amount"]) / globalMethods.ConvertDecimal(dr["ARTICLE_PACK_SIZE"])));
@@ -2192,20 +2198,21 @@ namespace  WOWIntegration
                 }
                 else if (discountAmount > 0)
                 {
-                    nDiscountFigure = discountAmount;
+                    nDiscountFigure = discountAmount * nQty;
 
                     nDiscountAmount = (nDiscountFigure > nPendingSchemeApplyAmount ? nPendingSchemeApplyAmount : nDiscountFigure);
                     nDiscMethod = 2;
                 }
                 else if (netPrice > 0)
                 {
-                    nDiscountFigure = netPrice;
+                    nDiscountFigure = netPrice * nQty;
 
-                    nDiscountAmount = (nDiscountFigure > nMrp ? nMrp : nPendingSchemeApplyAmount - nDiscountFigure);
+                    nDiscountAmount = (nDiscountFigure > nMrp ? nMrp : nPendingSchemeApplyAmount - Math.Abs(nDiscountFigure));
                     nDiscMethod = 3;
                 }
 
-                nDiscountAmount = Math.Abs(nDiscountAmount * nAppliedQty) * (nQty < 0 ? -1 : 1);
+                //nDiscountAmount = Math.Abs(nDiscountAmount * nAppliedQty) * (nQty < 0 ? -1 : 1);
+                nDiscountAmount = Math.Abs(nDiscountAmount) * (nQty < 0 ? -1 : 1);
 
                 drCmd["basic_discount_amount"] = globalMethods.ConvertDecimal(drCmd["basic_discount_amount"]) + nDiscountAmount;
 
