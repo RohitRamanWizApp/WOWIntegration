@@ -351,10 +351,12 @@ namespace WOWIntegration
 
 
                                     drowDet1["discount_amount"] = clsCommon.ConvertDecimal(drowDet1["basic_discount_amount"]) + clsCommon.ConvertDecimal(drowScheme["manual_discount_amount"]) + clsCommon.ConvertDecimal(drowScheme["card_discount_amount"]);
-                                    Decimal nTotalAmount= (clsCommon.ConvertDecimal(drowDet1["quantity"]) * clsCommon.ConvertDecimal(drowDet1["MRP"]));
+                                    Decimal nTotalAmount = (clsCommon.ConvertDecimal(drowDet1["quantity"]) * clsCommon.ConvertDecimal(drowDet1["MRP"]));
                                     if (cRoundOff_Item_At == "1")
                                         nTotalAmount = Math.Round(nTotalAmount, MidpointRounding.AwayFromZero);
-                                    drowDet1["discount_percentage"] = Math.Round(Math.Abs((clsCommon.ConvertDecimal(drowDet1["discount_amount"]) / nTotalAmount) * 100), 2);// clsCommon.ConvertDecimal(drowScheme["basic_discount_percentage"]) + clsCommon.ConvertDecimal(drowScheme["manual_discount_percentage"]);
+
+                                    if (nTotalAmount != 0)
+                                        drowDet1["discount_percentage"] = Math.Round(Math.Abs((clsCommon.ConvertDecimal(drowDet1["discount_amount"]) / nTotalAmount) * 100), 2);// clsCommon.ConvertDecimal(drowScheme["basic_discount_percentage"]) + clsCommon.ConvertDecimal(drowScheme["manual_discount_percentage"]);
                                     drowDet1["scheme_name"] = drowScheme["scheme_name"];
                                     drowDet1["slsdet_row_id"] = drowScheme["slsdet_row_id"];
                                     Decimal nNet = (clsCommon.ConvertDecimal(drowDet1["MRP"]) * clsCommon.ConvertDecimal(drowDet1["QUANTITY"]));
@@ -2819,6 +2821,7 @@ namespace WOWIntegration
                 DataTable tblBarCodes = new DataTable();
                 tblBarCodes.Columns.Add("PRODUCT_CODE", typeof(String));
                 tblBarCodes.Columns.Add("cmd_row_id", typeof(String));
+                tblBarCodes.Columns.Add("SR_NO", typeof(String));
                 //dmethod.SelectCmdTOSql(tblActiveSchemes, "DECLARE @tblActiveSchemes tvpActiveBarCodeschemes SELECT * FROM @tblActiveSchemes", false);
                 //dmethod.SelectCmdTOSql(tblBarCodes, "DECLARE @tblBarCodes tvpBarCodes select * from @tblBarCodes", false);
 
@@ -2835,6 +2838,7 @@ namespace WOWIntegration
                         DataRow drNew = tblBarCodes.NewRow();
                         drNew["product_code"] = Convert.ToString(drow["PRODUCT_CODE"]);
                         drNew["cmd_row_id"] = Convert.ToString(drow["row_id"]);
+                        drNew["SR_NO"] = Convert.ToString(drow["SR_NO"]);
                         tblBarCodes.Rows.Add(drNew);
                     }
                 }
@@ -3023,6 +3027,8 @@ namespace WOWIntegration
                                 if (dtACTIVE_SCHEMES_BARCODE_CLONE.Select("schemeRowId='" + Convert.ToString(drow["schemeRowId"]) + "' AND product_code='" + Convert.ToString(drFIltered["product_code"]) + "'").Length == 0)
                                 {
                                     DataRow drNew = dtACTIVE_SCHEMES_BARCODE_CLONE.NewRow();
+                                    if (drFIltered.Table.Columns.Count > 1)
+                                        drNew["sr_no"] = clsCommon.ConvertInt(drFIltered["sr_no"]);
                                     drNew["product_code"] = Convert.ToString(drFIltered["product_code"]);
                                     drNew["schemeRowId"] = Convert.ToString(drow["schemeRowId"]);
                                     drNew["buyBC"] = 1;
@@ -3068,6 +3074,9 @@ namespace WOWIntegration
                                 if (dtACTIVE_SCHEMES_BARCODE_CLONE.Select("schemeRowId='" + Convert.ToString(drow["schemeRowId"]) + "' AND product_code='" + Convert.ToString(drFIltered["product_code"]) + "'").Length == 0)
                                 {
                                     DataRow drNew = dtACTIVE_SCHEMES_BARCODE_CLONE.NewRow();
+                                    if (drFIltered.Table.Columns.Count > 1)
+                                        drNew["sr_no"] = clsCommon.ConvertInt(drFIltered["sr_no"]);
+
                                     drNew["product_code"] = Convert.ToString(drFIltered["product_code"]);
                                     drNew["schemeRowId"] = Convert.ToString(drow["schemeRowId"]);
                                     drNew["getBC"] = 1;
@@ -3335,6 +3344,9 @@ namespace WOWIntegration
                                             if (drowFound.Length == 0)
                                             {
                                                 DataRow drNew = dtACTIVE_SCHEMES_BARCODE_CLONE.NewRow();
+                                                if (drFIltered.Table.Columns.Count > 1)
+                                                    drNew["sr_no"] = clsCommon.ConvertInt(drFIltered["sr_no"]);
+
                                                 drNew["product_code"] = Convert.ToString(drFIltered["product_code"]);
                                                 drNew["schemeRowId"] = Convert.ToString(drowParaFilter["schemeRowId"]);
                                                 drNew["buyBC"] = Convert.ToString(drowParaFilter["buyBC"]);
@@ -3566,6 +3578,9 @@ namespace WOWIntegration
                                             if (dtACTIVE_SCHEMES_BARCODE_CLONE.Select("schemeRowId='" + Convert.ToString(drow["schemeRowId"]) + "' AND product_code='" + Convert.ToString(drFIltered["product_code"]) + "'").Length == 0)
                                             {
                                                 DataRow drNew = dtACTIVE_SCHEMES_BARCODE_CLONE.NewRow();
+                                                if (drFIltered.Table.Columns.Count > 1)
+                                                    drNew["sr_no"] = clsCommon.ConvertInt(drFIltered["sr_no"]);
+
                                                 drNew["product_code"] = Convert.ToString(drFIltered["product_code"]);
                                                 drNew["schemeRowId"] = Convert.ToString(drowParaFilter["schemeRowId"]);
                                                 drNew["buyBC"] = Convert.ToString(drowParaFilter["buyBC"]);
@@ -3790,6 +3805,9 @@ namespace WOWIntegration
                                             if (dtACTIVE_SCHEMES_BARCODE_CLONE.Select("schemeRowId='" + Convert.ToString(drow["schemeRowId"]) + "' AND product_code='" + Convert.ToString(drFIltered["product_code"]) + "'").Length == 0)
                                             {
                                                 DataRow drNew = dtACTIVE_SCHEMES_BARCODE_CLONE.NewRow();
+                                                if (drFIltered.Table.Columns.Count > 1)
+                                                    drNew["sr_no"] = clsCommon.ConvertInt(drFIltered["sr_no"]);
+
                                                 drNew["product_code"] = Convert.ToString(drFIltered["product_code"]);
                                                 drNew["schemeRowId"] = Convert.ToString(drowParaFilter["schemeRowId"]);
                                                 drNew["buyBC"] = Convert.ToString(drowParaFilter["buyBC"]);
@@ -3902,7 +3920,7 @@ namespace WOWIntegration
                             {
                                 if (i > 0)
                                     sb.AppendLine("UNION ALL");
-                                sb.AppendLine("SELECT '" + Convert.ToString(dr["product_code"]) + "' AS product_code,'" + Convert.ToString(dr["cmd_row_id"]) + "' AS CMD_ROW_ID");
+                                sb.AppendLine("SELECT '" + Convert.ToString(dr["product_code"]) + "' AS product_code,'" + Convert.ToString(dr["cmd_row_id"]) + "' AS CMD_ROW_ID,'" + Convert.ToString(dr["SR_NO"]) + "' AS SR_NO");
                                 if (i == 0)
                                     sb.AppendLine("INTO #tblBarCodes");
                                 i++;
@@ -3918,12 +3936,12 @@ namespace WOWIntegration
                                     SELECT CAST('' AS VARCHAR(100)) AS product_code,CAST('' AS VARCHAR(100)) AS cmd_row_id INTO #tblBarCodes WHERE 1=2
                             */
                             sb.AppendLine(@"
-                                SELECT product_code,schemeRowId,convert(bit,0) flatdiscount,max((case when buybc=1 THEN 1 ELSE 0 END)) buybc,
+                                SELECT SR_NO,product_code,schemeRowId,convert(bit,0) flatdiscount,max((case when buybc=1 THEN 1 ELSE 0 END)) buybc,
                                 max((case when getbc=1 THEN 1 ELSE 0 END)) getbc,0 flat_discountPercentage,0 flat_discountAmount,0 flat_netprice,0 flat_addnl_discountpercentage,
                                 convert(int,0) schemeMode,0 getbcAddnl
                                 FROM 
                                 (
-                                SELECT d.product_code,a.schemeRowId,convert(bit,1) buybc,convert(bit,0) getbc,convert(bit,0) getbcAddnl
+                                SELECT d.SR_NO, d.product_code,a.schemeRowId,convert(bit,1) buybc,convert(bit,0) getbc,convert(bit,0) getbcAddnl
                                 from wow_SchemeSetup_slsbc_buy a (NOLOCK)
                                 JOIN #tblActiveSchemes b ON a.schemeRowId=b.schemeRowId
                                 JOIN wow_SchemeSetup_slabs_Det c (NOLOCK) ON c.schemeRowId=a.schemeRowId
@@ -3932,7 +3950,7 @@ namespace WOWIntegration
                                 WHERE buyFilterMode=2 
 
                                 UNION ALL
-                                SELECT d.product_code,a.schemeRowId,convert(bit,0) buybc,convert(bit,(case when isnull(targetType,0)<>2 then 1 else 0 end)) getbc,
+                                SELECT d.SR_NO,d.product_code,a.schemeRowId,convert(bit,0) buybc,convert(bit,(case when isnull(targetType,0)<>2 then 1 else 0 end)) getbc,
                                 convert(bit,(case when isnull(targetType,0)=2 then 1 else 0 end)) getbcAddnl
                                 from wow_SchemeSetup_slsbc_get a (NOLOCK)
                                 JOIN #tblActiveSchemes b ON a.schemeRowId=b.schemeRowId
@@ -3941,7 +3959,7 @@ namespace WOWIntegration
                                 JOIN #tblBarCodes d ON LEFT(d.PRODUCT_CODE, ISNULL(NULLIF(CHARINDEX ('@',d.PRODUCT_CODE)-1,-1),LEN(d.PRODUCT_CODE )))=a.product_code
                                 WHERE getFilterMode=2 
                                 UNION ALL
-                               SELECT d.product_code,a.schemeRowId,convert(bit,1) buybc,convert(bit,0) getbc,convert(bit,0) getbcAddnl
+                               SELECT d.SR_NO,d.product_code,a.schemeRowId,convert(bit,1) buybc,convert(bit,0) getbc,convert(bit,0) getbcAddnl
                                 from wow_SchemeSetup_slsbc_buy a (NOLOCK)
                                 JOIN #tblActiveSchemes b ON a.schemeRowId=b.schemeRowId
                                 JOIN wow_SchemeSetup_slabs_Det c (NOLOCK) ON c.schemeRowId=a.schemeRowId
@@ -3950,7 +3968,7 @@ namespace WOWIntegration
                                 WHERE buyFilterMode=2 AND a.product_code LIKE '%@%'
 
                                 UNION ALL
-                                SELECT d.product_code,a.schemeRowId,convert(bit,0) buybc,convert(bit,(case when isnull(targetType,0)<>2 then 1 else 0 end)) getbc,
+                                SELECT d.SR_NO,d.product_code,a.schemeRowId,convert(bit,0) buybc,convert(bit,(case when isnull(targetType,0)<>2 then 1 else 0 end)) getbc,
                                 convert(bit,(case when isnull(targetType,0)=2 then 1 else 0 end)) getbcAddnl
                                 from wow_SchemeSetup_slsbc_get a (NOLOCK)
                                 JOIN #tblActiveSchemes b ON a.schemeRowId=b.schemeRowId
@@ -3960,7 +3978,7 @@ namespace WOWIntegration
                                 WHERE getFilterMode=2  AND a.product_code LIKE '%@%'
 
                                 ) a 
-                                GROUP BY product_code,schemeRowId
+                                GROUP BY SR_NO,product_code,schemeRowId
                                 DROP TABLE #tblActiveSchemes
                                 DROP TABLE #tblBarCodes");
                             String cQueryStr = sb.ToString();
@@ -3975,6 +3993,7 @@ namespace WOWIntegration
                                 if (dtACTIVE_SCHEMES_BARCODE_CLONE.Select("schemeRowId='" + Convert.ToString(drow["schemeRowId"]) + "' AND product_code='" + Convert.ToString(drow["product_code"]) + "'").Length == 0)
                                 {
                                     DataRow drNew = dtACTIVE_SCHEMES_BARCODE_CLONE.NewRow();
+                                    drNew["sr_no"] = clsCommon.ConvertInt(drow["sr_no"]);
                                     drNew["product_code"] = Convert.ToString(drow["product_code"]);
                                     drNew["schemeRowId"] = Convert.ToString(drow["schemeRowId"]);
                                     drNew["buyBC"] = Convert.ToString(drow["buyBC"]);

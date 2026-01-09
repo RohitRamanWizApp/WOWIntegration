@@ -79,6 +79,7 @@
     <Compile Include="clsApplyEOSS_WSL.cs" />
     <Compile Include="clsApplyEOSS.cs" />
     <Compile Include="clsApplyGST.cs" />
+    <Compile Include="clsCalPoPi.cs" />
     <Compile Include="clsGLobal.cs" />
     <Compile Include="clsRazorPay.cs" />
     <Compile Include="clsRetailBuyerOrder.cs" />
@@ -95,6 +96,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="HttpVerb.cs" />
+    <Compile Include="printingMethods.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

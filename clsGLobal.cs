@@ -16,6 +16,22 @@ namespace WOWIntegration
   {
     public static Generic AppMain = new Generic();
 
+
+        public static int GetErrorLineNo(Exception ex)
+        {
+            var lineNumber = 0;
+            const string lineSearch = ":line ";
+            var index = ex.StackTrace.LastIndexOf(lineSearch);
+            if (index != -1)
+            {
+                var lineNumberText = ex.StackTrace.Substring(index + lineSearch.Length);
+                if (int.TryParse(lineNumberText, out lineNumber))
+                {
+                }
+            }
+            return lineNumber;
+        }
+
     public static bool DefaultLogin(string cAppPath)
     {
       bool flag = clsGLobal.AppMain.SetConnection("sspldev", "TESTING_H1", "sa", "sspl@h199", true);
