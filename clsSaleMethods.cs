@@ -3015,7 +3015,11 @@ namespace  WOWIntegration
                         DataTable dtSortedSlabs = dtSlabs.DefaultView.ToTable();
 
                         string filterTableData = "";
-                        if (globalMethods.ConvertBool(drTitles["incrementalScheme"]) == true)
+                        if (globalMethods.ConvertInt(drTitles["schememode"]) == 3)
+                        {
+                            retMsgFromSchemeMethod = applyBundleScheme(conn.ConnectionString,cLocId, ref dtCmdSchemes, dtSortedSlabs, drTitles, dsSchemeInfo.Tables["skuNames"]);                          
+                        }
+                        else if (globalMethods.ConvertBool(drTitles["incrementalScheme"]) == true)
                             retMsgFromSchemeMethod = applyPowerPricingInc(ref dtCmdSchemes, dtSortedSlabs, drTitles, dsSchemeInfo.Tables["skuNames"]);
                         else
                         {
@@ -3577,22 +3581,16 @@ namespace  WOWIntegration
         //    return retMsgFromSchemeMethod;
 
         //}
-        private string applyEossScanningBased_New(ref DataTable dtCmdSchemes, DataRow drSlabs, DataRow drSchemeDet, DataTable dtSkuNames)
+        private string applyBundleScheme(String ConStr, String cLocID, ref DataTable dtCmdSchemes, DataTable dtSlabs, DataRow drSchemeDet, DataTable dtSkuNames)
         {
-
-            decimal nSchemeBuyValue, nSchemeToRange, nSchemeGetValue,nSchemeTotalQty;
-            Boolean bSchemeApplied = false;
-            int nBuyType, nGetType;
-            decimal nSetQty = 0;
+            
             string retMsg = "";
             commonMethods globalMethods = new commonMethods();
-
             try
             {
+               
                 string cSchemeName = drSchemeDet["schemeName"].ToString();
                 string cSchemeRowId = drSchemeDet["schemeRowId"].ToString();
-
-
                 Decimal nQty;
                 // We need to do this so that we can process the scheme on the items ordered on pending scheme qty/amount desc
                 foreach (DataRow dr in dtCmdSchemes.Rows)
@@ -3601,384 +3599,179 @@ namespace  WOWIntegration
                     dr["pending_scheme_apply_qty"] = nQty;
                     dr["pending_scheme_apply_amount"] = (globalMethods.ConvertDecimal(dr["mrp"]) * Math.Abs(globalMethods.ConvertDecimal(dr["quantity"]))) - globalMethods.ConvertDecimal(dr["scheme_applied_amount"]);
                 }
-
-                dtCmdSchemes.AcceptChanges();
-
-                string cSlabRowId = drSlabs["rowId"].ToString();
-
-                DataRow[] drSkuNamesBuy = dtSkuNames.Select("schemeRowId='" + cSchemeRowId + "' and buybc=1", "");
-                DataRow[] drSkuNamesGet = dtSkuNames.Select("schemeRowId='" + cSchemeRowId + "' and getbc=1", "");
-
-                nBuyType = Convert.ToInt32(drSchemeDet["buyType"]);
-                nGetType = Convert.ToInt32(drSlabs["getType"]);
-
-                nSchemeBuyValue = globalMethods.ConvertDecimal(drSlabs["buyFromRange"]);
-                nSchemeToRange = globalMethods.ConvertDecimal(drSlabs["buyToRange"]);
-                if (nGetType == 2)
-                    nSchemeGetValue = globalMethods.ConvertDecimal(drSlabs["discountAmount"]);
-                else
-                    nSchemeGetValue = globalMethods.ConvertDecimal(drSlabs["getQty"]);
-
-                nSchemeTotalQty = nSchemeBuyValue + nSchemeGetValue;
-
-                lblReProcess:
-
-                Decimal BuyItemsTotal = 0, GetItemsTotal = 0, nNetValue, nSchemeAppliedQty = 0, nLoopValue = 0, nAddValue = 0,
-                nMrp, nDiscountFigure, nDiscountAmount, nDiscountPercentage, nSchemeAppliedAmount = 0;
-
-
-                nQty = 0;
-                string cProductCode;
-
-                int nDiscMethod;
-
-                DataTable dtFilteredCmdBuy = dtCmdSchemes.Clone();
-
-                DataTable dtFilteredCmdGet = dtCmdSchemes.Clone();
-
-                string cBuynGetnRowId = "";
-
-                if (drSkuNamesBuy.Length == 0 || (drSkuNamesGet.Length == 0 && nGetType != 3))
-                    goto lblUpdateWtdDisc;
-
-                if (nGetType != 3)
-                    cBuynGetnRowId = Guid.NewGuid().ToString();
-
-                string filterTableData;
-
-                DataTable dtSkuNamesBuy = dtSkuNames.Select("schemeRowId='" + cSchemeRowId + "' and (buybc=1 OR getbc=1)", "").CopyToDataTable();
-
-                filterTableData = (nBuyType == 1 ? " pending_scheme_apply_qty>0 " : " pending_scheme_apply_amount>0 ");
-
-                string cMessage = globalMethods.JoinDataTables(dtCmdSchemes, dtSkuNamesBuy, ref dtFilteredCmdBuy, filterTableData,
-                (row1, row2) =>
-                row1.Field<String>("product_code") == row2.Field<String>("product_code"));
-
-                if (!String.IsNullOrEmpty(cMessage))
-                    return cMessage;
-
-                if (dtFilteredCmdBuy.Rows.Count == 0)
-                    goto lblUpdateWtdDisc;
-
-
-
-
-
-                dtSkuNamesBuy = dtSkuNames.Select("schemeRowId='" + cSchemeRowId + "' and buybc=1", "").CopyToDataTable();
-
-                filterTableData = (nBuyType == 1 ? " pending_scheme_apply_qty>0 " : " pending_scheme_apply_amount>0 ");
-
-                cMessage = globalMethods.JoinDataTables(dtCmdSchemes, dtSkuNamesBuy, ref dtFilteredCmdBuy, filterTableData,
-                (row1, row2) =>
-                row1.Field<String>("product_code") == row2.Field<String>("product_code"));
-
-                if (!String.IsNullOrEmpty(cMessage))
-                    return cMessage;
-
-                if (dtFilteredCmdBuy.Rows.Count == 0)
-                    goto lblUpdateWtdDisc;
-
-                decimal nLoop = 0, nBaseQtyorAmount = 0, nAppliedValue = 0;
-                nLoopValue = 0;
-
-                bool bAPplyWtdDiscount = false;
-
-                DataTable dtFilteredCmdBuyOrdered = new DataTable();
-                DataTable dtFilteredCmdBuyOrderedGroup = new DataTable();
-                string cOrderColumn = "sr_no";
-
-                dtFilteredCmdBuy.DefaultView.Sort = cOrderColumn; //  string.Format("{0} {1}", cOrderColumn, "DES"); //sort descending
-
-                dtFilteredCmdBuyOrderedGroup = dtFilteredCmdBuy.DefaultView.ToTable();
-                dtFilteredCmdBuyOrderedGroup.Columns.Add("GroupNo", typeof(System.Int32));
-                Decimal nCheckMRP = 0;
-                Int32 nGroupNo = 1;
-                foreach (DataRow drDetail in dtFilteredCmdBuyOrderedGroup.Rows)
+                if (dtCmdSchemes.Select("pending_scheme_apply_qty>0").Length == 0)
                 {
-                    if (nGroupNo==0 || nCheckMRP < globalMethods.ConvertDecimal(drDetail["MRP"]))
-                    {
-                        nGroupNo++;
-                    }
-                    drDetail["GroupNo"] = nGroupNo;
-                    nCheckMRP = globalMethods.ConvertDecimal(drDetail["MRP"]);
-
+                    return retMsg;
+                }
+                Boolean bBundleApplied = true;
+                StringBuilder sb = new StringBuilder();
+                foreach (DataRow drow in dtCmdSchemes.Select("pending_scheme_apply_qty>0"))
+                {
+                    if (String.IsNullOrEmpty(Convert.ToString(drow["product_code"]))) continue;
+                    sb.Append("'");
+                    sb.Append(Convert.ToString(drow["product_code"]));
+                    sb.Append("',");
                 }
 
-                nCheckMRP = 0;
-                if (globalMethods.ConvertDecimal(drSlabs["discountAmount"]) != 0 && nGetType == 3)
-                    bAPplyWtdDiscount = true;
-
-
-                dtFilteredCmdBuyOrdered.Columns.Add("GroupNo", typeof(System.Int32));
-
-                dtFilteredCmdBuyOrdered.Columns.Add("WtdDiscountBaseValue", typeof(decimal));
-
-                string cItemCode = "";
-                foreach (DataRow drDetail in dtFilteredCmdBuyOrdered.Rows)
+                String cStrProductCode = sb.ToString().TrimEnd(',');
+                String cSchemName = Convert.ToString(drSchemeDet["schemeName"]);
+                Int32 iBundleLevel = globalMethods.ConvertInt(drSchemeDet["bundleLevels"]);
+                DataTable dtBundleList = new DataTable();
+                dtBundleList.Columns.Add("bundleno", typeof(decimal));
+                dtBundleList.Columns.Add("bundleQty", typeof(decimal));
+                for (Int32 iB = 1; iB <= iBundleLevel; iB++)
                 {
-                    if (nBuyType == 1)
-                        nBaseQtyorAmount = globalMethods.ConvertDecimal(drDetail["pending_scheme_apply_qty"]);
-                    else
-                        nBaseQtyorAmount = globalMethods.ConvertDecimal(drDetail["pending_scheme_apply_amount"]);
-
-
-                    cItemCode = drDetail["product_code"].ToString();
-
-                    if (nGetType == 3)
-                    {
-                        string cErr = "";
-                        nAppliedValue = Math.Abs(((nLoopValue + nBaseQtyorAmount) > nSchemeToRange ? (nSchemeToRange - nLoopValue) : nBaseQtyorAmount));
-
-                        if (!bAPplyWtdDiscount)
-                            cErr = applyDiscountasPerMethod(drDetail, cSchemeRowId, globalMethods.ConvertDecimal(drSlabs["discountPercentage"]),
-                            globalMethods.ConvertDecimal(drSlabs["discountAmount"]), globalMethods.ConvertDecimal(drSlabs["netPrice"]));
-                        else
-                            drDetail["WtdDiscountBaseValue"] = (nBuyType == 1 ? nBaseQtyorAmount * Convert.ToDecimal(drDetail["mrp"]) : nBaseQtyorAmount);
-
-                        if (!string.IsNullOrEmpty(cErr))
-                            return cErr;
-                    }
-                    else
-                    {
-                        nAppliedValue = Math.Abs(((nLoopValue + nBaseQtyorAmount) > nSchemeBuyValue ? (nSchemeBuyValue - nLoopValue) : nBaseQtyorAmount));
-                    }
-
-                    if (nBuyType == 1)
-                    {
-                        drDetail["scheme_applied_qty"] = globalMethods.ConvertDecimal(drDetail["scheme_applied_qty"]) + nAppliedValue;
-                    }
-                    else
-                    {
-                        drDetail["scheme_applied_qty"] = Math.Abs(Convert.ToDecimal(drDetail["quantity"]));
-                    }
-
-                    if (bAPplyWtdDiscount || nGetType != 3)
-                        drDetail["scheme_applied_amount"] = globalMethods.ConvertDecimal(drDetail["mrp"]) * globalMethods.ConvertDecimal(drDetail["scheme_applied_qty"]);
-
-                    if (globalMethods.ConvertDecimal(drDetail["scheme_applied_qty"]) > Math.Abs(globalMethods.ConvertDecimal(drDetail["quantity"])))
-                    {
-                        retMsg = "Scheme applied quantity going more than quantity";
-                        goto lblEnd;
-                    }
-
-                    decimal nAppliedSchemeAmount = globalMethods.ConvertDecimal(drDetail["scheme_applied_amount"]);
-                    decimal nBaseMrpValue = globalMethods.ConvertDecimal(drDetail["mrp"]) * globalMethods.ConvertDecimal(drDetail["quantity"]);
-
-                    if (nAppliedSchemeAmount > Math.Abs(nBaseMrpValue))
-                    {
-                        retMsg = "Scheme applied amount :" + nAppliedSchemeAmount.ToString() + " going more than mrp value :" + nBaseMrpValue.ToString();
-                        goto lblEnd;
-                    }
-
-                    drDetail["pending_scheme_apply_qty"] = Math.Abs(globalMethods.ConvertDecimal(drDetail["quantity"])) - globalMethods.ConvertDecimal(drDetail["scheme_applied_qty"]);
-                    drDetail["pending_scheme_apply_amount"] = (Math.Abs(globalMethods.ConvertDecimal(drDetail["quantity"]) * globalMethods.ConvertDecimal(drDetail["mrp"])) -
-                        globalMethods.ConvertDecimal(drDetail["scheme_applied_amount"]));
-
-                    drDetail["buynGetnRowId"] = cBuynGetnRowId;
-                    nLoopValue = nLoopValue + nAppliedValue;
-
-
-                    if (!drDetail["scheme_name"].ToString().Contains(cSchemeName))
-                    {
-                        drDetail["scheme_name"] = drDetail["scheme_name"] + (string.IsNullOrEmpty(drDetail["scheme_name"].ToString()) ? "" : ",") +
-                        drSchemeDet["schemeName"].ToString();
-                    }
-
-                    drDetail["slsdet_row_id"] = cSchemeRowId;
-                    drDetail["slabRowId"] = cSlabRowId;
-
-                    if (nCheckMRP == 0 || nCheckMRP > globalMethods.ConvertDecimal(drDetail["MRP"]))
-                        nCheckMRP = globalMethods.ConvertDecimal(drDetail["MRP"]);
-
-                    if ((nLoopValue >= nSchemeBuyValue && nGetType != 3) || (nLoopValue >= nSchemeToRange && nGetType == 3))
-                        break;
-
+                    dtBundleList.Rows.Add(new object[] { iB, globalMethods.ConvertDecimal(drSchemeDet["bundleLevel" + iB.ToString() + "_qty"]) });
                 }
-
-                if (nLoopValue < nSchemeBuyValue)
-                    goto lblUpdateWtdDisc;
-
-
-                if (bAPplyWtdDiscount)
+                if (dtBundleList.Rows.Count == 0)
                 {
-
-                    cMessage = DistributeWtdDiscount(ref dtFilteredCmdBuyOrdered, globalMethods.ConvertDecimal(drSlabs["discountAmount"]));
-                    if (!string.IsNullOrEmpty(cMessage))
-                        return cMessage;
+                    bBundleApplied = false;
                 }
-
-                synchCmdSchemes(dtFilteredCmdBuyOrdered, ref dtCmdSchemes);
-
-                if (nGetType == 3)
+                foreach (DataRow drowB in dtBundleList.Select("", "bundleQty desc"))
                 {
-                    bSchemeApplied = true;
-                    goto lblUpdateWtdDisc;
-                }
-                DataTable dtSkuNamesGet = dtSkuNames.Select("schemeRowId='" + cSchemeRowId + "' and getbc=1", "").CopyToDataTable();
+                    if (!bBundleApplied) continue;
 
-                filterTableData = (nGetType == 1 ? " pending_scheme_apply_qty>0 " : " scheme_applied_amount=0 ");
+                    String cbundleLevel_filterCriteria_ColumnName = "bundleLevel" + globalMethods.ConvertInt(drowB["bundleno"]).ToString() + "_filterCriteria";
+                    String cbundleLevel_qty_ColumnName = "bundleLevel" + globalMethods.ConvertInt(drowB["bundleno"]).ToString() + "_qty";
+                    Decimal nBundleQty = globalMethods.ConvertDecimal(drowB["bundleQty"]);
 
-                cMessage = globalMethods.JoinDataTables(dtCmdSchemes, dtSkuNamesGet, ref dtFilteredCmdGet, filterTableData,
-                (row1, row2) =>
-                row1.Field<String>("product_code") == row2.Field<String>("product_code"));
 
-                if (!String.IsNullOrEmpty(cMessage) || dtFilteredCmdGet.Rows.Count == 0)
-                {
-                    dtCmdSchemes.RejectChanges();
+                    String cStrBuyFilter = Convert.ToString(drSchemeDet[cbundleLevel_filterCriteria_ColumnName]);// + ((String.IsNullOrEmpty(cStrbuyFilterCriteria_exclusion)) ? "" : " AND NOT (" + cStrbuyFilterCriteria_exclusion + ")");
+                    if (String.IsNullOrEmpty(cStrBuyFilter)) continue;
 
-                    if (!String.IsNullOrEmpty(cMessage))
-                        return cMessage;
+                    if (String.IsNullOrEmpty(cStrBuyFilter)) cStrBuyFilter = "1=2";
 
-                    goto lblUpdateWtdDisc;
-                }
+                    DataRow[] dr = dtCmdSchemes.Select("1=2");
 
-                //Populate dt here
-                DataTable dtFilteredCmdGetOrdered = new DataTable();
+                    String[] cstrBuySplit = cStrBuyFilter.Split(new String[] { "LIKE" }, StringSplitOptions.RemoveEmptyEntries);
 
-                dtFilteredCmdGet.DefaultView.Sort = "sr_no";// (nGetType == 1 ? "mrp DESC,pending_scheme_apply_qty ASC " : "pending_scheme_apply_amount"); //  string.Format("{0} {1}", cOrderColumn, "DES"); //sort descending
+                    String cQueryFilter = "";
 
-                dtFilteredCmdGetOrdered = dtFilteredCmdGet.DefaultView.ToTable();
 
-                nLoopValue = 0;
-                String cMaxMRPError = "";
-                decimal nBuySchAppliedQty = 0, nBuySchAppliedAmt = 0;
-                foreach (DataRow drDetail in dtFilteredCmdGetOrdered.Rows)
-                {
-
-                    nBuySchAppliedQty = globalMethods.ConvertDecimal(drDetail["scheme_applied_qty"]);
-                    nBuySchAppliedAmt = globalMethods.ConvertDecimal(drDetail["scheme_applied_amount"]);
-
-                    if (nGetType == 1)
-                        nBaseQtyorAmount = globalMethods.ConvertDecimal(drDetail["pending_scheme_apply_qty"]);
-                    else
-                        nBaseQtyorAmount = globalMethods.ConvertDecimal(drDetail["pending_scheme_apply_amount"]);
-
-                    if (nBaseQtyorAmount == 0)
-                        continue;
-
-                    if (nCheckMRP < globalMethods.ConvertDecimal(drDetail["mrp"]))
+                    if (cstrBuySplit.Length > 300)
                     {
-                        cMaxMRPError = cSchemeName + @"GET ITEM CODE :" + Convert.ToString(drDetail["product_code"]) + " IS HAVING MRP :" + Convert.ToString(drDetail["mrp"]).ToString() + " MORE THAN MIN MRP:" + Convert.ToString(nCheckMRP) + " OF BUY SET ITEM'";
-                    }
-
-                    nAppliedValue = Math.Abs(((nLoopValue + nBaseQtyorAmount) > nSchemeGetValue ? (nSchemeGetValue - nLoopValue) : nBaseQtyorAmount));
-
-                    cSchemeRowId = drSchemeDet["schemeRowId"].ToString();
-
-                    String cErr = applyDiscountasPerMethod(drDetail, cSchemeRowId, globalMethods.ConvertDecimal(drSlabs["discountPercentage"]),
-                        globalMethods.ConvertDecimal(drSlabs["discountAmount"]), globalMethods.ConvertDecimal(drSlabs["netPrice"]),
-                        (nGetType == 1 ? nAppliedValue : 1));
-
-                    if (!string.IsNullOrEmpty(cErr))
-                        return cErr;
-
-                    if (nGetType == 1)
-                        drDetail["scheme_applied_qty"] = globalMethods.ConvertDecimal(drDetail["scheme_applied_qty"]) + nAppliedValue;
-
-                    drDetail["pending_scheme_apply_qty"] = Math.Abs(globalMethods.ConvertDecimal(drDetail["quantity"])) - globalMethods.ConvertDecimal(drDetail["scheme_applied_qty"]);
-                    drDetail["pending_scheme_apply_amount"] = (Math.Abs(globalMethods.ConvertDecimal(drDetail["quantity"])) *
-                        globalMethods.ConvertDecimal(drDetail["mrp"])) - globalMethods.ConvertDecimal(drDetail["scheme_applied_amount"]);
-
-                    nLoopValue = nLoopValue + nAppliedValue;
-
-                    if (!drDetail["scheme_name"].ToString().Contains(cSchemeName))
-                    {
-                        drDetail["scheme_name"] = drDetail["scheme_name"] + (string.IsNullOrEmpty(drDetail["scheme_name"].ToString()) ? "" : ",") +
-                        drSchemeDet["schemeName"].ToString();
-                    }
-
-                    drDetail["buynGetnRowId"] = cBuynGetnRowId;
-                    drDetail["slsdet_row_id"] = cSchemeRowId;
-                    drDetail["slabRowId"] = cSlabRowId;
-                    if (nLoopValue >= nSchemeGetValue)
-                        break;
-
-
-
-                }
-
-                if ((nLoopValue < nSchemeGetValue && nGetType == 1))
-                {
-                    dtCmdSchemes.RejectChanges();
-                    goto lblUpdateWtdDisc;
-                }
-                else if (!String.IsNullOrEmpty(cMaxMRPError))
-                {
-                    dtCmdSchemes.RejectChanges();
-                    return cMaxMRPError;
-                }
-
-                bSchemeApplied = true;
-                synchCmdSchemes(dtFilteredCmdGetOrdered, ref dtCmdSchemes);
-
-
-                if (globalMethods.ConvertDecimal(drSlabs["addnlGetQty"]) > 0)
-                {
-                    retMsg = ProcessBnGnAddnlDiscounts(cSchemeRowId, cSchemeName, ref dtCmdSchemes, drSlabs, dtSkuNames);
-                    if (!String.IsNullOrEmpty(retMsg))
-                        goto lblEnd;
-                }
-
-                // Commit changes in cmd for scheme applied  for current set
-                dtCmdSchemes.AcceptChanges();
-
-                goto lblReProcess;
-
-            lblUpdateWtdDisc:
-
-                if (nGetType != 3)
-                {
-                    // If BnGn Qty based scheme is not applied by following the chronology of Buy items first and then Get Items
-                    // Then we need to reverse the processing order by fetching get items first and then look for buy Items
-                    if (!bSchemeApplied)// && nGetType==1 && nBuyType==1)
-                    {
-                        decimal nPendingValue = 0;
-
-                        if (nBuyType == 1)
-                            nPendingValue = Convert.ToDecimal(dtCmdSchemes.Compute("sum(pending_scheme_apply_qty)", ""));
-                        else
-                            nPendingValue = Convert.ToDecimal(dtCmdSchemes.Compute("sum(pending_scheme_apply_amount)", ""));
-
-                        if (globalMethods.ConvertInt(drSlabs["setValue"]) <= nPendingValue)
+                        cQueryFilter = cStrBuyFilter.ToUpper().Replace("CHALLAN_RECEIPT_DT", "ISNULL(SX.RECEIPT_DT,'')");
+                        cQueryFilter = cQueryFilter.ToUpper().Replace("PRODUCT_CODE", "A.PRODUCT_CODE");
+                        cQueryFilter = cQueryFilter.ToUpper().Replace("XFER_PRICE", "A.XFER_PRICE");
+                        DataTable tSKUNAMES_BETWEEN = new DataTable("tSKUNAMES_BETWEEN");
+                        cQueryFilter = @"SELECT A.Product_code FROM SKU_NAMES A(Nolock) 
+                                        LEFT JOIN sku_xfp sx (NOLOCK) ON sx.product_code=a.product_code AND sx.dept_id='" + cLocID + @"'   
+                                        WHERE A.PRODUCT_CODE IN (" + cStrProductCode + ") AND " + cQueryFilter;
+                        ////System.IO.File.WriteAllText("Y:\\WiApp3S_MA\\cStrBuyFilter.txt", cQueryFilter);
+                        //sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] Start :  cStrBuyFilter - " + cQueryFilter + " " + DateTime.Now.ToString());
+                        APIBaseClass clsCommon = new APIBaseClass(ConStr);
+                        clsCommon.SelectCmdToSql(tSKUNAMES_BETWEEN, cQueryFilter, "tSKUNAMES_BETWEEN");
+                        //sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] End :  cStrBuyFilter - " + cQueryFilter + " " + DateTime.Now.ToString());
+                        dr = tSKUNAMES_BETWEEN.Select();
+                        StringBuilder sbp = new StringBuilder();
+                        foreach (DataRow drowP in dr)
                         {
-                            string retMsgFromSchemeMethod = applyEossBnGnSpl(ref dtCmdSchemes, drSlabs, drSchemeDet, dtSkuNames);
-                            if (!string.IsNullOrEmpty(retMsgFromSchemeMethod))
-                                return retMsgFromSchemeMethod;
+                            if (String.IsNullOrEmpty(Convert.ToString(drowP["product_code"]))) continue;
+                            sbp.Append("'");
+                            sbp.Append(Convert.ToString(drowP["product_code"]));
+                            sbp.Append("',");
+                        }
+                        String cStrProductCode1 = sb.ToString().TrimEnd(',');
+                        dr = dtCmdSchemes.Select("ISNULL(bundleLevel,0)=0 AND PRODUCT_CODE IN(" + cStrProductCode1 + ")");
+                    }
+                    else
+                        dr = dtCmdSchemes.Select("ISNULL(bundleLevel,0)=0 AND PRODUCT_CODE IN(" + cStrProductCode + ") AND " + cStrBuyFilter);
+
+                    if (dr.Length > 0)
+                    {
+                        nQty = globalMethods.ConvertDecimal(dr.CopyToDataTable().Compute("SUM(pending_scheme_apply_qty)", ""));
+                        if (nQty >= nBundleQty)
+                        {
+                            foreach (DataRow drowP in dr)
+                            {
+                                if (nBundleQty > 0)
+                                {
+                                    if (globalMethods.ConvertDecimal(drowP["pending_scheme_apply_qty"]) >= nBundleQty)
+                                    {
+                                        drowP["scheme_applied_qty"] = nBundleQty;
+                                        nBundleQty = 0;
+                                    }
+                                    else
+                                    {
+                                        drowP["scheme_applied_qty"] = globalMethods.ConvertDecimal(drowP["quantity"]);
+                                        nBundleQty -= globalMethods.ConvertDecimal(drowP["quantity"]);
+                                    }
+                                    drowP["bundleLevel"] = globalMethods.ConvertInt(drowB["bundleno"]);
+                                    drowP["slsdet_row_id"] = cSchemeRowId;
+                                    drowP["scheme_name"] = cSchemeName;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            dtCmdSchemes.Select("pending_scheme_apply_qty>0").ToList<DataRow>().ForEach(r =>
+                            {
+                                r["bundleLevel"] = 0;
+                                r["slsdet_row_id"] = "";
+                                r["scheme_name"] = "";
+                            });
+
+                            bBundleApplied = false;
                         }
                     }
-
-                    // Calculate  Weighted avg discounts in all items which are part of Buy n Get n schemes
                     else
                     {
-                        bSchemeApplied = false;
-                        if (!globalMethods.ConvertBool(drSchemeDet["additionalScheme"]))
+                        dtCmdSchemes.Select("pending_scheme_apply_qty>0").ToList<DataRow>().ForEach(r =>
                         {
-                            retMsg = UpdateBNGNWtdAvgDisc(ref dtCmdSchemes, cSlabRowId, globalMethods.ConvertBool(drSchemeDet["donot_distribute_weighted_avg_disc_bngn"]));
-                            if (!String.IsNullOrEmpty(retMsg))
-                                goto lblEnd;
-                        }
+                            r["bundleLevel"] = 0;
+                            r["slsdet_row_id"] = "";
+                            r["scheme_name"] = "";
+                        });
+                        bBundleApplied = false;
                     }
                 }
-                else if (nGetType == 3 && bSchemeApplied)
+                if (bBundleApplied)
                 {
-                    bSchemeApplied = false;
-                    goto lblReProcess;
+                    DataRow drSlabs = dtSlabs.Rows[0];
+                    DataTable dtFilteredCmdBuyOrdered = new DataTable();
+                    dtFilteredCmdBuyOrdered = dtCmdSchemes.Select("slsdet_row_id='" + cSchemeRowId + "' AND pending_scheme_apply_qty>0 and ISNULL(bundleLevel,0)<>0").CopyToDataTable();
+                    if (!dtFilteredCmdBuyOrdered.Columns.Contains("WtdDiscountBaseValue"))
+                        dtFilteredCmdBuyOrdered.Columns.Add("WtdDiscountBaseValue", typeof(decimal));
+                    if (globalMethods.ConvertDecimal(drSlabs["discountPercentage"]) > 0)
+                    {
+                        foreach (DataRow drowcmd in dtFilteredCmdBuyOrdered.Rows)
+                        {
+                            retMsg = applyDiscountasPerMethod(drowcmd, cSchemeRowId, globalMethods.ConvertDecimal(drSlabs["discountPercentage"]), 0, 0);
+                            if (!string.IsNullOrEmpty(retMsg))
+                                return retMsg;
+                        }
+                    }
+                    else if (globalMethods.ConvertDecimal(drSlabs["discountAmount"]) > 0)
+                    {
+                        dtFilteredCmdBuyOrdered.Select().ToList<DataRow>().ForEach(r => r["WtdDiscountBaseValue"] = globalMethods.ConvertDecimal(r["pending_scheme_apply_amount"]));
+                        retMsg = DistributeWtdDiscount(ref dtFilteredCmdBuyOrdered, globalMethods.ConvertDecimal(drSlabs["discountAmount"]));
+                        if (!string.IsNullOrEmpty(retMsg))
+                            return retMsg;
+                    }
+                    else if (globalMethods.ConvertDecimal(drSlabs["netPrice"]) > 0)
+                    {
+                        Decimal dTotalValue = 0, dDiscountAmount = 0;
+                        //foreach (DataRow drowcmd in dtFilteredCmdBuyOrdered.Rows)
+                        //{
+                        //    dTotalValue += (globalMethods.ConvertDecimal(drowcmd["MRP"]) * globalMethods.ConvertDecimal(drowcmd["QUANTITY"]));
+                        //}
+                        dTotalValue = globalMethods.ConvertDecimal(dtFilteredCmdBuyOrdered.Compute("SUM(pending_scheme_apply_amount)", ""));
+                        dDiscountAmount = (dTotalValue - globalMethods.ConvertDecimal(drSlabs["netPrice"]));
+                        dtFilteredCmdBuyOrdered.Select().ToList<DataRow>().ForEach(r => r["WtdDiscountBaseValue"] = globalMethods.ConvertDecimal(r["pending_scheme_apply_amount"]));
+                        retMsg = DistributeWtdDiscount(ref dtFilteredCmdBuyOrdered, dDiscountAmount);
+                        if (!string.IsNullOrEmpty(retMsg))
+                            return retMsg;
+                    }
+                    synchCmdSchemes(dtFilteredCmdBuyOrdered, ref dtCmdSchemes);
                 }
-                //Slab loop ends here
-
-
 
             }
-
             catch (Exception ex)
             {
                 int errLineNo = new commonMethods().GetErrorLineNo(ex);
-                retMsg = "Error in APplying Buy n Get n at Line#" + errLineNo.ToString() + ":" + ex.Message.ToString();
+                retMsg = "Error in applyBundleScheme at Line#" + errLineNo.ToString() + ":" + ex.Message.ToString();
 
             }
-
-        lblEnd:
-
             return retMsg;
 
         }

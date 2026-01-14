@@ -2849,6 +2849,8 @@ namespace WOWIntegration
                 }
                 Int32 iHappyHours = 2;
                 String cstrHappyHourFilter = (String.IsNullOrEmpty(cCMDRowID) ? "" : " schememode=2 and ") + " (ISNULL(happy_hours_applicable,0)=0 OR happy_hours_applicable=False) AND ";
+                String cstrBundleScheme = " schememode<>3 and ";
+
                 if (dset.Tables["tACTIVE_SCHEMES5"].Rows.Count > 0)
                 {
                     sbProcessingTime.AppendLine(iHappyHours.ToString() + " Start SSPLDATETIME :" + DateTime.Now.ToString());
@@ -2886,8 +2888,10 @@ namespace WOWIntegration
                     dtACTIVE_SCHEMES_BARCODE_CLONE = dset.Tables["tACTIVE_SCHEMES4"].Clone(); //dset.Tables["tACTIVE_SCHEMES_BARCODE"].Clone();
                     Int32 nSchemeMode = 1, nBuyBc = 1, nGetBc = 1;
 
-                    foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + " (ISNULL(buyFilterCriteria,'')<>'' OR ISNULL(getFilterCriteria,'')<>'') ", "titleProcessingOrder desc"))
+                    foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + cstrBundleScheme + " (ISNULL(buyFilterCriteria,'')<>'' OR ISNULL(getFilterCriteria,'')<>'') ", "titleProcessingOrder desc"))
                     {
+                        //Rohit 12-01-2026 : schememode==3 is for Bundle Scheme
+                        if (clsCommon.ConvertInt(drow["schememode"]) == 3) continue;
                         cSchemName = Convert.ToString(drow["schemeName"]);
                         sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "]" + DateTime.Now.ToString());
                         //if (cSchemName.ToUpper().Contains("KIDS"))
@@ -2989,7 +2993,7 @@ namespace WOWIntegration
                             LEFT JOIN sku_xfp sx (NOLOCK) ON sx.product_code=a.product_code AND sx.dept_id='" + LoggedLocation + @"'   
                             WHERE A.PRODUCT_CODE IN (" + cStrProductCode + ") AND " + cQueryFilter;
                             //System.IO.File.WriteAllText("Y:\\WiApp3S_MA\\cStrBuyFilter.txt", cQueryFilter);
-                            sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] Start : cStrbuyFilterRestrictionCriteria : "+cQueryFilter+ " "+ DateTime.Now.ToString());
+                            sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] Start : cStrbuyFilterRestrictionCriteria : " + cQueryFilter + " " + DateTime.Now.ToString());
                             clsCommon.SelectCmdToSql(tSKUNAMES_BETWEEN, cQueryFilter, "tSKUNAMES_BETWEEN");
                             sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] End : cStrbuyFilterRestrictionCriteria : " + cQueryFilter + " " + DateTime.Now.ToString());
                             dr = tSKUNAMES_BETWEEN.Select();
@@ -3009,7 +3013,7 @@ namespace WOWIntegration
                             LEFT JOIN sku_xfp sx (NOLOCK) ON sx.product_code=a.product_code AND sx.dept_id='" + LoggedLocation + @"'   
                             WHERE A.PRODUCT_CODE IN (" + cStrProductCode + ") AND " + cQueryFilter;
                             //System.IO.File.WriteAllText("Y:\\WiApp3S_MA\\cStrBuyFilter.txt", cQueryFilter);
-                            sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] Start :  cStrBuyFilter - "+ cQueryFilter + " " + DateTime.Now.ToString());
+                            sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] Start :  cStrBuyFilter - " + cQueryFilter + " " + DateTime.Now.ToString());
                             clsCommon.SelectCmdToSql(tSKUNAMES_BETWEEN, cQueryFilter, "tSKUNAMES_BETWEEN");
                             sbProcessingTime.AppendLine(iHappyHours.ToString() + " Scheme :[" + cSchemName + "] End :  cStrBuyFilter - " + cQueryFilter + " " + DateTime.Now.ToString());
                             dr = tSKUNAMES_BETWEEN.Select();
@@ -3095,7 +3099,7 @@ namespace WOWIntegration
                         }
 
                     }
-                    foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES3"].Select(cstrHappyHourFilter + " 1=1 "))
+                    foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES3"].Select(cstrHappyHourFilter + cstrBundleScheme + " 1=1 "))
                     {
                         cStrSchemeRowID = Convert.ToString(drow["schemeRowId"]);
                         cSchemName = Convert.ToString(dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + " schemeRowId ='" + cStrSchemeRowID + "'")[0]["schemeName"]);
@@ -3332,7 +3336,7 @@ namespace WOWIntegration
                                     dr = dt.Select("PRODUCT_CODE IN(" + cStrProductCode + ") AND " + cStrFilter1);
                                     if (dr.Length > 0)
                                     {
-                                        foreach (DataRow drowActivescheme in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + " schemeRowId ='" + cStrSchemeRowID + "'"))
+                                        foreach (DataRow drowActivescheme in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + cstrBundleScheme + " schemeRowId ='" + cStrSchemeRowID + "'"))
                                         {
                                             if (dtACTIVE_SCHEMES_CLONE.Select("schemeRowId='" + cStrSchemeRowID + "'").Length == 0)
                                                 dtACTIVE_SCHEMES_CLONE.Rows.Add(drowActivescheme.ItemArray);
@@ -3375,7 +3379,7 @@ namespace WOWIntegration
                         }
                         else
                         {
-                            DataRow[] drowPara = dset.Tables["tACTIVE_SCHEMES2"].Select(cstrHappyHourFilter + " schemeRowId='" + cStrSchemeRowID + "'  and ISNULL(targetType,0)=0 and (buyBC=1 OR buyBC=True) ");
+                            DataRow[] drowPara = dset.Tables["tACTIVE_SCHEMES2"].Select(cstrHappyHourFilter + cstrBundleScheme + " schemeRowId='" + cStrSchemeRowID + "'  and ISNULL(targetType,0)=0 and (buyBC=1 OR buyBC=True) ");
                             if (drowPara.Length > 0)
                             {
 
@@ -3567,7 +3571,7 @@ namespace WOWIntegration
                                     dr = dt.Select("PRODUCT_CODE IN(" + cStrProductCode + ") AND " + cStrFilter1);
                                     if (dr.Length > 0)
                                     {
-                                        foreach (DataRow drowActivescheme in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + " schemeRowId ='" + cStrSchemeRowID + "'"))
+                                        foreach (DataRow drowActivescheme in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + cstrBundleScheme + " schemeRowId ='" + cStrSchemeRowID + "'"))
                                         {
                                             if (dtACTIVE_SCHEMES_CLONE.Select("schemeRowId='" + cStrSchemeRowID + "'").Length == 0)
                                                 dtACTIVE_SCHEMES_CLONE.Rows.Add(drowActivescheme.ItemArray);
@@ -3602,7 +3606,7 @@ namespace WOWIntegration
                                     }
                                 }
                             }
-                            drowPara = dset.Tables["tACTIVE_SCHEMES2"].Select(cstrHappyHourFilter + " schemeRowId='" + cStrSchemeRowID + "'  and ISNULL(targetType,0)=0 and (getBC=1 OR getBC=True) ");
+                            drowPara = dset.Tables["tACTIVE_SCHEMES2"].Select(cstrHappyHourFilter + cstrBundleScheme + " schemeRowId='" + cStrSchemeRowID + "'  and ISNULL(targetType,0)=0 and (getBC=1 OR getBC=True) ");
                             if (drowPara.Length > 0)
                             {
 
@@ -3794,7 +3798,7 @@ namespace WOWIntegration
                                     dr = dt.Select("PRODUCT_CODE IN(" + cStrProductCode + ") AND " + cStrFilter1);
                                     if (dr.Length > 0)
                                     {
-                                        foreach (DataRow drowActivescheme in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + " schemeRowId='" + cStrSchemeRowID + "'"))
+                                        foreach (DataRow drowActivescheme in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + cstrBundleScheme + " schemeRowId='" + cStrSchemeRowID + "'"))
                                         {
                                             if (dtACTIVE_SCHEMES_CLONE.Select("schemeRowId='" + cStrSchemeRowID + "'").Length == 0)
                                                 dtACTIVE_SCHEMES_CLONE.Rows.Add(drowActivescheme.ItemArray);
@@ -3857,7 +3861,7 @@ namespace WOWIntegration
                     }
                     if (String.IsNullOrEmpty(Convert.ToString(dtMst.Rows[0]["ecoupon_id"])) && String.IsNullOrEmpty(cCMDRowID))
                     {
-                        foreach (DataRow drowActvieScheme1 in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + "ISNULL(schemeApplicableLevel,0)=2"))
+                        foreach (DataRow drowActvieScheme1 in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + cstrBundleScheme + " ISNULL(schemeApplicableLevel,0)=2"))
                         {
                             if (dtACTIVE_SCHEMES_CLONE.Select("schemeRowId ='" + Convert.ToString(drowActvieScheme1["schemeRowId"]) + "'").Length == 0)
                             {
@@ -3875,7 +3879,7 @@ namespace WOWIntegration
                             }
                         }
                     }
-                    foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + " (ISNULL(schememode,0)=1 AND (ISNULL(buyFilterMode,0)=2) OR ISNULL(getFilterMode,0)=2)"))
+                    foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + cstrBundleScheme + " (ISNULL(schememode,0)=1 AND (ISNULL(buyFilterMode,0)=2) OR ISNULL(getFilterMode,0)=2)"))
                     {
                         tblActiveSchemes.Rows.Add(new Object[] { Convert.ToString(drow["schemeRowId"]) });
                     }
@@ -4111,6 +4115,25 @@ namespace WOWIntegration
                         //        drow["quantity"] = 1;
                         //    }
                         //}
+
+                        foreach (DataRow drowActvieScheme1 in dset.Tables["tACTIVE_SCHEMES"].Select(cstrHappyHourFilter + " schememode=3"))
+                        {
+                            if (dtACTIVE_SCHEMES_CLONE.Select("schemeRowId ='" + Convert.ToString(drowActvieScheme1["schemeRowId"]) + "'").Length == 0)
+                            {
+                                foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES"].Select("schemeRowId ='" + Convert.ToString(drowActvieScheme1["schemeRowId"]) + "'"))
+                                {
+                                    dtACTIVE_SCHEMES_CLONE.Rows.Add(drow.ItemArray);
+                                }
+                            }
+                            if (dtACTIVE_SCHEMES1_CLONE.Select("schemeRowId ='" + Convert.ToString(drowActvieScheme1["schemeRowId"]) + "'").Length == 0)
+                            {
+                                foreach (DataRow drow in dset.Tables["tACTIVE_SCHEMES1"].Select("schemeRowId ='" + Convert.ToString(drowActvieScheme1["schemeRowId"]) + "'"))
+                                {
+                                    dtACTIVE_SCHEMES1_CLONE.Rows.Add(drow.ItemArray);
+                                }
+                            }
+                        }
+
                         String cRetVal = clssale.updateSchemeDiscounts(con, LoggedLocation, ref dtMst, ref dtDetails, dtACTIVE_SCHEMES_CLONE, dtACTIVE_SCHEMES1_CLONE, dtACTIVE_SCHEMES_BARCODE_CLONE, true, clsCommon.ConvertInt(cRoundOff_Item_At), bApplyFlatschemesOnly, cCMDRowID, _DISCOUNT_PICKMODE_SLR, (iHappyHours == 2), bAPPLY_FIX_MRP_EOSS_AND_BILLPRINT);
                         sbProcessingTime.AppendLine(iHappyHours.ToString() + " End updateSchemeDiscounts : " + DateTime.Now.ToString());
                         sbProcessingTime.AppendLine(iHappyHours.ToString() + " Start Processing with Discount : " + DateTime.Now.ToString());
